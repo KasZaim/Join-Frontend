@@ -1,0 +1,22 @@
+<div class="header-content d-flex f-row a-i-center" onclick="closeLogoutPopup()">
+    <img class="LogoImageHeader d-none pointer" src="../assets/images/logo.svg" onclick="showMainpage()">
+    <div class="spanHeader">Kanban Project Management Tool</div>
+    <div class="profileImageHeader d-flex f-row a-i-center">
+        <img class="headerHelp pointer" src="../assets/icons/questionmark.svg" alt="You need a Help?"
+            onclick="changeSite(HELP_ID)">
+        <div class="profile-picture-container f-center p-relative pointer">
+            <img class="profile-picture" src="../assets/images/user_avatar.png"
+                onclick="stopPropagation(event); showLogoutPopup()">
+            <div onclick="stopPropagation(event)" class="logoutBtn f-center pointer d-none" id="logoutPopup">
+                <span class="pointer legalNoticeResponsive"
+                    onclick="changeSite(LEGALNOTICE_ID); addBackgroundColorForSpecialPages('legalNoticeSidebar'); closeLogoutPopup()">Legal
+                    notice</span>
+                <span class="pointer privacyPolicyResponsive"
+                    onclick="changeSite(PRIVACY_ID); addBackgroundColorForSpecialPages('privacyPolicySidebar'); closeLogoutPopup()">Privacy
+                    policy</span>
+                <span class="pointer" onclick="logOut()">Log Out</span>
+                <span class="pointer helpResponsive" onclick="changeSite(HELP_ID); closeLogoutPopup()">Help</span>
+            </div>
+        </div>
+    </div>
+</div>

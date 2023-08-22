@@ -1,0 +1,19 @@
+<div class="contact-list-container f-center">
+    <div id="contactList" class="contact-list f-column"></div>
+</div>
+<div id="contactCard" class="contact-card f-column">
+    <div class="spanMainpage d-none">Kanban Project Management Tool</div>
+    <img src="../assets/icons/plus_blue.png" id="closeContactCardBtn" class="back-btn pointer" onclick="stopPropagation(event); closeContactCard()">
+    <div class="contacts-headline">
+        <h2>Contacts</h2>
+        <div class="contacts-parting-line"></div>
+        <span>Better with a team</span>
+    </div>
+    <div class="f-column">
+        <div id="contactInfo" class="contact-info f-column"></div>
+    </div>
+</div>
+<div id="createContactBtn" class="create-contact-btn f-center pointer" onclick="openCreateContact()">
+    <span>New Contact</span>
+    <img src="../assets/icons/add_contact.png">
+</div>

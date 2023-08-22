@@ -1,0 +1,41 @@
+.help-desc {
+    font-size: 1.1em;
+}
+
+.help-steps-box {
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.help-steps-box h3 {
+    margin: 0;
+    width: 3%;
+}
+
+.help-steps-box b {
+    width: 23%;
+    font-weight: 700;
+}
+
+.help-steps-box span {
+    width: 74%;
+}
+
+@media (max-width: 1300px) {
+    .help-steps-box {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .help-steps-box b {
+        width: 90%;
+        padding-left: 8px;
+    }
+
+    .help-steps-box span {
+        width: 95%;
+    }
+}

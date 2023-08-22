@@ -1,0 +1,498 @@
+.loginBody {
+    background-color: rgba(211, 211, 211, 0.2);
+    height: 100vh;
+}
+
+.login-form,
+.reset-pw-form,
+.new-pw-form,
+.sign-up-form {
+    padding: 35px 0px;
+    gap: 35px;
+    min-width: 652px;
+    left: 394px;
+    top: 274px;
+    background: #FFFFFF;
+    border-radius: 30px;
+}
+
+.login-form {
+    animation-name: changeBackgroundOfCard;
+    animation-duration: 1s;
+    animation-delay: 0ms;
+    animation-fill-mode: forwards;
+}
+
+.loginBodyCenter {
+    height: 100%;
+    width: 100%;
+}
+
+.login-form h1 {
+    margin-right: 0 !important;
+}
+
+.loginHeader {
+    width: 100%;
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-bottom: 50px;
+}
+
+.logoImage {
+    position: fixed;
+    top: 45%;
+    left: 40%;
+    z-index: 10;
+    object-fit: contain;
+    height: 150px;
+    width: 100px;
+    margin-left: 65px;
+    margin-top: 30px;
+}
+
+.loginHeaderRight {
+    z-index: 3;
+    margin-top: 35px;
+    margin-right: 65px;
+    gap: 35px;
+}
+
+.loginHeaderQuestion {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 300;
+}
+
+.login-input-container {
+    position: relative;
+    padding: 0px;
+    gap: 35px;
+    width: 422px;
+}
+
+.login-design-line {
+    width: 30%;
+    height: 4px;
+    background-color: #29abe2;
+}
+
+.login-input {
+    position: relative;
+    width: 100%;
+}
+
+.inputImg {
+    position: absolute;
+    right: 8%;
+}
+
+.password-img {
+    height: 20px;
+    width: 20px;
+}
+
+.loginE-Mail {
+    padding-left: 8%;
+    gap: 10px;
+    width: 380px;
+    height: 50px;
+    border: 1px solid #D1D1D1;
+    border-radius: 10px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 21px;
+}
+
+.rememberMe {
+    font-size: 16px;
+    margin-right: 15px !important;
+}
+
+.forgotPass {
+    color: #29ABE2;
+    font-size: 16px;
+    margin-left: 20px !important;
+}
+
+.login-headline-span {
+    font-size: 1.3em;
+    font-weight: 400;
+    text-align: center;
+}
+
+.login-btn,
+.sign-up-btn,
+.reset-pw-btn,
+.new-pw-btn,
+.sign-up-header-btn {
+    font-size: 1.3em;
+    padding: 14px 45px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 125ms ease-in-out;
+    gap: 8px;
+    border: 1px solid #2a3647;
+    background-color: #2a3647 !important;
+    color: white !important;
+    white-space: nowrap;
+}
+
+.guest-login-btn {
+    font-size: 1.3em;
+    padding: 14px 16px;
+    background-color: white;
+    transition: all 125ms ease-in-out;
+    border-radius: 10px;
+    font-weight: 600;
+    border: 1px solid #2a3647;
+    color: rgba(0, 0, 59, 0.8);
+    white-space: nowrap;
+}
+
+.sign-up-header-btn {
+    padding: 14px 28px !important;
+}
+
+.login-btn:hover,
+.sign-up-btn:hover,
+.reset-pw-btn:hover,
+.new-pw-btn:hover,
+.sign-up-header-btn:hover {
+    background-color: #29abe2 !important;
+    border: 1px solid transparent;
+    box-shadow:
+        1px 4px 3px -1px rgba(0, 0, 0, 0.16),
+        -1px 4px 3px -1px rgba(0, 0, 0, 0.16);
+}
+
+.guest-login-btn:hover {
+    border: 1px solid #29abe2;
+    color: #29abe2;
+    box-shadow:
+        1px 4px 3px -1px rgba(0, 0, 0, 0.16),
+        -1px 4px 3px -1px rgba(0, 0, 0, 0.16);
+}
+
+.login-headline-container {
+    margin-right: 55px;
+}
+
+.login-headline-container img {
+    margin-left: 35px;
+    margin-right: 35px;
+    width: 30px;
+    height: 30px;
+}
+
+.sign-up-btn-container {
+    margin-bottom: 10px;
+}
+
+.endAnimationLogo {
+    transform: translate(-50%, -50%);
+    animation-name: moveEndLogo;
+    animation-duration: 2s;
+    animation-delay: 0ms;
+    animation-fill-mode: forwards;
+}
+
+.startAnimationLogo {
+    transform: translate(-50%, -50%);
+    animation-name: moveStartLogo;
+    animation-duration: 2s;
+    animation-delay: 0ms;
+    animation-fill-mode: forwards;
+}
+
+.startAnimation {
+    animation-name: changeBackground;
+    animation-duration: 1.5s;
+    animation-delay: 0ms;
+    animation-fill-mode: forwards;
+}
+
+.signUpContainerAnimation {
+    animation-name: hideShowSignUpContainer;
+    animation-duration: 1s;
+    animation-delay: 0ms;
+    animation-fill-mode: forwards;
+}
+
+@keyframes hideShowSignUpContainer {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes changeBackgroundOfCard {
+    from {
+        background-color: #2A3547;
+        box-shadow: 0;
+    }
+
+    to {
+        background-color: #FFFFFF;
+        box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
+        transform: none;
+    }
+}
+
+@keyframes changeBackground {
+    from {
+        background-color: #2A3547;
+        z-index: 999;
+    }
+
+    to {
+        background-color: rgba(211, 211, 211, 0.2);
+        z-index: 0;
+        transform: none;
+    }
+}
+
+@keyframes moveEndLogo {
+    from {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        scale: 1.5;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        z-index: 9999;
+    }
+
+    to {
+        top: 0;
+        left: 0;
+        scale: 1;
+        transform: none;
+        opacity: 1;
+        z-index: 0;
+    }
+}
+
+@keyframes moveStartLogo {
+    from {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        scale: 1.5;
+        transform: translate(-50%, -50%);
+        opacity: 1;
+        z-index: 9999;
+    }
+
+    to {
+        top: 0;
+        left: 0;
+        scale: 1;
+        transform: none;
+        opacity: 0;
+        z-index: 0;
+    }
+}
+
+@media (max-width: 1050px) {
+    .logoImage {
+        margin-left: 6%;
+        margin-top: 3%;
+        height: 100px;
+        width: 70px;
+    }
+
+    .loginHeaderRight {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        margin: 0;
+        margin-bottom: 25px;
+        width: 105%;
+    }
+
+    .login-form,
+    .reset-pw-form,
+    .new-pw-form,
+    .sign-up-form {
+        width: 80%;
+        min-width: 0;
+    }
+
+    .loginBody {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .login-input-container {
+        width: 90%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .loginE-Mail {
+        width: 90%;
+        margin-right: 0 !important;
+    }
+
+    .loginBtn {
+        font-size: 18px;
+        padding: 10px 40px;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .guestBtn {
+        font-size: 18px;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .loginH1 {
+        font-size: 44px;
+        margin-bottom: 15px;
+        padding-left: 80px;
+        padding-right: 80px;
+    }
+
+    .rememberMe {
+        font-size: 14px;
+    }
+
+    .forgotPass {
+        font-size: 14px;
+        margin-left: 0 !important;
+    }
+
+    .signUpForm {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 25px;
+        padding: 15px 0;
+    }
+
+    .loginCheckbox {
+        margin-left: 0 !important;
+    }
+}
+
+@media (max-width: 400px) {
+    .loginH1 {
+        font-size: 39px;
+        margin-bottom: 15px;
+    }
+
+    .sign-up-btn-container {
+        gap: 15px;
+    }
+
+    .loginHeaderRight {
+        gap: 15px;
+    }
+
+    .loginBtn {
+        padding: 10px;
+    }
+
+    .loginFooter {
+        flex-direction: column;
+        gap: 12px !important;
+    }
+
+    .login-btn,
+    .sign-up-btn,
+    .reset-pw-btn,
+    .new-pw-btn,
+    .sign-up-header-btn {
+        font-size: 1.2em;
+        padding: 14px 18px;
+    }
+
+    .guest-login-btn {
+        font-size: 1.2em;
+        padding: 14px;
+    }
+
+    .login-headline-container img {
+        height: 24px;
+        width: 24px;
+    }
+    
+    .loginHeaderRight p {
+        font-size: 1.2em;
+    }
+}
+
+@media (max-width: 600px) {
+    .login-headline-container {
+        margin-right: 30px;
+    }
+
+    .login-headline-container img {
+        margin-left: 18px;
+        margin-right: 10px;
+    }
+
+    .sign-up-header-btn {
+        padding: 14px !important;
+    }
+}
+
+@media (max-height: 700px) {
+    .login-input-container {
+        gap: 15px;
+    }
+
+    .login-input {
+        height: auto !important;
+        margin-bottom: 0;
+    }
+
+    .sign-up-btn-container {
+        margin-bottom: 0;
+    }
+
+    .logoImage {
+        display: none;
+    }
+
+    .loginHeader {
+        margin-bottom: 0;
+    }
+
+    .login-form,
+    .reset-pw-form,
+    .new-pw-form,
+    .sign-up-form {
+        gap: 15px;
+    }
+    
+    .login-form {
+        margin-top: -60px;
+    }
+
+    .login-btn,
+    .sign-up-btn,
+    .reset-pw-btn,
+    .new-pw-btn,
+    .sign-up-header-btn {
+        font-size: 1em;
+    }
+
+    .guest-login-btn {
+        font-size: 1em;
+    }
+
+    .login-input input {
+        font-size: 1.2em;
+    }
+}

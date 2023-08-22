@@ -1,0 +1,119 @@
+.header-content {
+    position: fixed;
+    z-index: 15;
+    top: 0;
+    left: 0;
+    right: 0;
+    justify-content: space-between;
+    padding: 20px 35px 20px 320px;
+    gap: 34px;
+    height: 89px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profileImageHeader {
+    padding: 0px;
+    gap: 26px;
+    width: 106px;
+    height: 49px;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+.headerHelp {
+    width: 31px;
+    height: 31px;
+    color: #CDCDCD;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.profile-picture-container {
+    border: 3px solid #2EA1DC;
+    border-radius: 100%;
+    padding: 2px;
+}
+
+.profile-picture {
+    object-fit: cover;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    opacity: 0.6;
+}
+
+.spanHeader {
+    height: 25px;
+    padding-left: 36px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 21px;
+}
+
+.logoutBtn {
+    position: absolute;
+    top: 66px;
+    right: -40px;
+    background: #1f2e43;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 20px 0px 20px 20px;
+    width: 130px;
+    height: 53px;
+    font-size: 16px;
+    text-align: center;
+    color: #CDCDCD;
+    border: unset;
+    z-index: 9999;
+}
+
+@media (max-width: 1050px) {
+    .LogoImageHeader {
+        display: unset !important;
+        height: 40px;
+        width: 32px;
+    }
+
+    .header-content {
+        padding-right: 8%;
+        padding-left: 8%;
+    }
+
+    .spanHeader {
+        display: none;
+    }
+
+    .headerHelp {
+        display: none;
+    }
+
+    .profileImageHeader {
+        width: auto;
+    }
+
+    .logoutBtn {
+        height: 120px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        font-weight: 400;
+        font-size: 16px;
+    }
+}
+
+@media (min-width: 1051px) {
+    .legalNoticeResponsive {
+        display: none;
+    }
+
+    .privacyPolicyResponsive {
+        display: none;
+    }
+
+    .helpResponsive {
+        display: none;
+    }
+}

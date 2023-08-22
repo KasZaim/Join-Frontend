@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join</title>
+    <link rel="icon" type="image/svg" href="../assets/images/logo.svg">
+    <script src="../js/storage.js"></script>
+    <script src="../script.js"></script>
+    <script src="../js/login.js"></script>
+    <script src="../js/summary.js"></script>
+    <script src="../js/board.js"></script>
+    <script src="../js/boardDetailedTask.js"></script>
+    <script src="../js/boardEditTask.js"></script>
+    <script src="../js/detailedTaskTemplate.js"></script>
+    <script src="../js/addTask.js"></script>
+    <script src="../js/taskTemplates.js"></script>
+    <script src="../js/addTaskSubmit.js"></script>
+    <script src="../js/contacts.js"></script>
+    <script src="../js/arraysAndVariables.js"></script>
+    <script src="../js/contactTemplates.js"></script>
+    <link rel="stylesheet" href="../css/fonts.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/summary.css">
+    <link rel="stylesheet" href="../css/board.css">
+    <link rel="stylesheet" href="../css/contacts.css">
+    <link rel="stylesheet" href="../css/addTask.css">
+    <link rel="stylesheet" href="../css/privacyPolicy.css">
+    <link rel="stylesheet" href="../css/help.css">
+</head>
+
+<body onload="initialize()" onclick="closeLogoutPopup()">
+    <div w3-include-html="../html/sidebar.html"></div>
+    <div w3-include-html="../html/header.html"></div>
+    <div class="incl-cont-side d-none" w3-include-html="../html/summary.html" id="summaryPage"></div>
+    <div class="incl-cont-side of-visible d-none" w3-include-html="../html/board.html" id="boardPage"></div>
+    <div class="incl-cont-side d-none" w3-include-html="../html/addTask.html" id="addTaskPage"></div>
+    <div class="contacts-side d-flex d-none" w3-include-html="../html/contacts.html" id="contactsPage"></div>
+    <div class="incl-cont-side d-none h-100" w3-include-html="../html/privacyPolicy.html" id="privacyPolicyPage"></div>
+    <div class="incl-cont-side d-none" w3-include-html="../html/legalNotice.html" id="legalNoticePage"></div>
+    <div class="incl-cont-side d-none" w3-include-html="../html/help.html" id="helpPage"></div>
+    <div id="popupWindow" class="d-none popup-window" onclick="closePopupWindow()"></div>
+    <div id="successBanner" class="success-banner success-banner-adjustment d-none"></div>
+</body>
+
+</html>

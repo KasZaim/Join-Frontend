@@ -1,0 +1,63 @@
+<div class="f-column j-center">
+    <div class="spanMainpage d-none">Kanban Project Management Tool</div>
+    <div class="summary-headline-container d-flex a-i-center">
+        <h2>Summary</h2>
+        <div class="vertical-line-summary"></div>
+        <span>Everything in a nutshell!</span>
+    </div>
+    <div class="d-flex">
+        <div class="f-column">
+            <div class="task-count-boxes-top-row d-flex gap-35">
+                <div class="task-count-box f-center f-column pointer" onclick="changeSite(BOARD_ID)">
+                    <span id="allTasksCount"></span>
+                    <div class="task-count-box-description">
+                        Tasks in<br>Board
+                    </div>
+                </div>
+                <div class="task-count-box f-center f-column pointer" onclick="changeSite(BOARD_ID)">
+                    <span id="tasksInProgressCount"></span>
+                    <div class="task-count-box-description">
+                        Tasks in<br>Progress
+                    </div>
+                </div>
+                <div class="task-count-box f-center f-column pointer" onclick="changeSite(BOARD_ID)">
+                    <span id="tasksAwaitingFeedbackCount"></span>
+                    <div class="task-count-box-description">
+                        Awaiting<br>Feedback
+                    </div>
+                </div>
+            </div>
+            <div class="urgent-tasks-box d-flex a-i-center pointer" onclick="changeSite(BOARD_ID)">
+                <div class="d-flex a-i-center">
+                    <img src="../assets/images/circle_urgent.png">
+                    <div class="f-column">
+                        <span id="urgentTasksCount" class="urgent-tasks-count"></span>Urgent
+                    </div>
+                </div>
+                <div class="urgent-tasks-box-parting-line"></div>
+                <div class="f-center f-column fs-14">
+                    <b id="date"></b>
+                    <span>Upcoming Deadline</span>
+                </div>
+            </div>
+            <div class="task-count-boxes-bottom-row d-flex a-i-center gap-35">
+                <div class="tasks-to-do-box f-center pointer" onclick="changeSite(BOARD_ID)">
+                    <img src="../assets/images/circle_pencil.png">
+                    <div class="summary-todo-tasks-box f-column">
+                        <span id="tasksToDoCount"><b></b></span>To-Do
+                    </div>
+                </div>
+                <div class="tasks-done-box f-center pointer" onclick="changeSite(BOARD_ID)">
+                    <img src="../assets/images/circle_checkmark.png">
+                    <div class="summary-done-tasks-box f-column">
+                        <span id="tasksDoneCount"><b></b></span>Done
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="greet-container f-column j-center">
+            <span id="greetText" class="greet-text"></span>
+            <span id="userFirstname" class="greet-name">Dear Guest</span>
+        </div>
+    </div>
+</div>

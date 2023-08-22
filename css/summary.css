@@ -1,0 +1,331 @@
+*,
+::after,
+::before {
+    box-sizing: border-box;
+}
+
+.summary-headline-container {
+    margin-bottom: 65px;
+    margin-top: -10px;
+}
+
+.summary-headline-container h2 {
+    margin-bottom: 0 !important;
+}
+
+.summary-headline-container span {
+    font-size: 27px;
+}
+
+.vertical-line-summary {
+    border-left: 4px solid #29ABE2;
+    height: 70px;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.task-count-box {
+    height: 170px;
+    width: 170px;
+    border-radius: 30px;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.1);
+    transition: all 125ms ease-in-out;
+}
+
+.task-count-box:hover {
+    background-color: #2A3647;
+    transform: scale(1.1);
+    color: white;
+}
+
+.task-count-box-description {
+    font-size: 20px;
+    text-align: center;
+}
+
+.urgent-tasks-box {
+    justify-content: space-evenly;
+    width: 580px;
+    height: 150px;
+    background-color: white;
+    border-radius: 30px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.1);
+    margin-top: 40px;
+    transition: all 125ms ease-in-out;
+}
+
+.urgent-tasks-box:hover {
+    background-color: #2A3647;
+    transform: scale(1.06);
+    color: white;
+}
+
+.urgent-tasks-box img {
+    height: 58px;
+    margin-right: 12px;
+}
+
+.urgent-tasks-box-parting-line {
+    border-left: 2px solid lightgray;
+    height: 115px;
+}
+
+.urgent-tasks-box b {
+    font-size: 21px;
+    margin-bottom: 14px;
+}
+
+.task-count-boxes-bottom-row {
+    width: 580px;
+    height: 150px;
+    margin-top: 40px;
+}
+
+.tasks-to-do-box,
+.tasks-done-box {
+    height: 150px;
+    width: 272px;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 30px;
+    gap: 20px;
+    transition: all 125ms ease-in-out;
+}
+
+.tasks-to-do-box:hover,
+.tasks-done-box:hover {
+    background-color: #2A3647;
+    transform: scale(1.1);
+    color: white;
+}
+
+.tasks-to-do-box img,
+.tasks-done-box img {
+    height: 60px;
+}
+
+.greet-container {
+    align-items: flex-start;
+    margin-top: 45px;
+    padding-left: 45px;
+}
+
+.greet-text {
+    font-weight: 600;
+    font-size: 3.3em;
+}
+
+.greet-name {
+    color: #29ABE2;
+    font-weight: 700;
+    font-size: 3.5em;
+    margin-bottom: 20px;
+}
+
+.urgent-tasks-count {
+    font-size: 47px;
+    text-align: center;
+}
+
+.summary-todo-tasks-box,
+.summary-done-tasks-box {
+    font-weight: 500;
+    font-size: 21px;
+}
+
+.summary-todo-tasks-box span,
+.summary-done-tasks-box span,
+.task-count-box span {
+    font-size: 64px;
+    font-weight: 600;
+    text-align: center;
+}
+
+@media (max-width: 1500px) {
+    .greet-text {
+        font-size: 2.4em;
+    }
+
+    .greet-name {
+        font-size: 2.7em;
+    }
+
+}
+
+@media (max-width: 1160px) {
+    .greet-container {
+        display: none;
+    }
+}
+
+@media(max-width:1050px) {
+    .summary-headline-container {
+        display: flex;
+        width: 100%;
+        align-items: flex-start;
+        margin-bottom: 41px;
+        flex-direction: column;
+    }
+
+    .vertical-line-summary {
+        transform: rotate(90deg);
+        order: 2;
+        margin-left: 34px;
+    }
+
+    .summary-headline-container span {
+        margin-top: 15px;
+    }
+
+    .task-count-box {
+        height: 130px;
+        width: 130px;
+    }
+
+    .task-count-box-description {
+        font-size: 15px;
+    }
+
+    .urgent-tasks-box {
+        margin-top: 30px;
+        width: 460px;
+        height: 130px;
+    }
+
+    .urgent-tasks-box img {
+        height: 50px;
+    }
+
+    .urgent-tasks-box-parting-line {
+        height: 105px !important;
+    }
+
+    .fs-14 {
+        font-size: 14px;
+    }
+
+    .urgent-tasks-box b {
+        font-size: 16px;
+    }
+
+    .summary-content {
+        padding: 0;
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .task-count-boxes-bottom-row {
+        width: 460px;
+        height: 130px;
+        margin-top: 24px;
+    }
+
+    .tasks-to-do-box,
+    .tasks-done-box {
+        height: 110px;
+    }
+
+    .tasks-to-do-box img,
+    .tasks-done-box img {
+        height: 40px;
+    }
+
+    .summary-todo-tasks-box,
+    .summary-done-tasks-box {
+        font-size: 15px !important;
+    }
+
+    .summary-todo-tasks-box span,
+    .summary-done-tasks-box span,
+    .task-count-box span {
+        font-size: 49px !important;
+    }
+}
+
+@media(max-width:600px) {
+    .summary-headline-container {
+        margin-bottom: 0;
+    }
+
+    .summary-headline-container span {
+        margin-top: 30px;
+        font-size: 19px !important;
+    }
+
+    .task-count-box {
+        height: 110px;
+        width: 110px;
+    }
+
+    .tasks-to-do-box:hover,
+    .tasks-done-box:hover,
+    .task-count-box:hover,
+    .urgent-tasks-box:hover {
+        transform: none;
+    }
+
+    .urgent-tasks-box {
+        margin-top: 24px;
+        width: 360px;
+        height: 110px;
+    }
+
+    .urgent-tasks-box-parting-line {
+        height: 90px !important;
+    }
+
+    .task-count-boxes-bottom-row {
+        width: 360px;
+        height: 110px;
+    }
+
+    .tasks-to-do-box,
+    .tasks-done-box {
+        width: 170px;
+    }
+
+    .summary-todo-tasks-box span,
+    .summary-done-tasks-box span,
+    .urgent-tasks-count,
+    .task-count-box span {
+        font-size: 43px !important;
+    }
+}
+
+@media(max-width:420px) {
+    .task-count-boxes-top-row,
+    .task-count-boxes-bottom-row {
+        width: 300px;
+        height: 100px;
+    }
+
+    .urgent-tasks-box {
+        margin-top: 28px;
+        width: 300px;
+        height: 90px;
+    }
+
+    .urgent-tasks-box-parting-line {
+        height: 70px !important;
+    }
+
+    .tasks-to-do-box,
+    .tasks-done-box {
+        width: 170px;
+    }
+
+    .summary-todo-tasks-box span,
+    .summary-done-tasks-box span,
+    .urgent-tasks-count,
+    .task-count-box span {
+        font-size: 35px !important;
+    }
+
+    .urgent-tasks-box-parting-line {
+        height: 100px;
+    }
+}
