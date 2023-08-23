@@ -38,3 +38,4 @@ let mediaQuery = window.matchMedia("(max-width: 1050px)");
 let tasks = [];
 let topics = [];
 let newTaskCache = [];
+let categoriesOrder = ['toDo', 'inProgress', 'awaitFeedback', 'done'];

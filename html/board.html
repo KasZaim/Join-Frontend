@@ -16,43 +16,33 @@
     <div class="board-section f-column">
         <div class="board-section-category d-flex pointer">
             <h3>To Do</h3>
-            <img id="plus1" src="../assets/icons/plus_blue.png" class="board-plus-icon" onmouseover="changeIconColor('plus1')"
-                onmouseleave="removeIconColor('plus1')" onclick="setAssignment('toDo'); showAddTaskWindow()">
+            <img id="plus1" src="../assets/icons/plus_blue.png" class="board-plus-icon" onmouseover="changeIconColor('plus1')"onmouseleave="removeIconColor('plus1')" onclick="setAssignment('toDo'); showAddTaskWindow()">
         </div>
-        <div class="drag-drop-area" id="toDo" ondrop="moveTo('toDo'); removeHighlight('toDo')"
-            ondragover="allowDrop(event); showHighlight('toDo')" ondragleave="removeHighlight('toDo')">
+        <div class="drag-drop-area" id="toDo" ondrop="moveTo('toDo'); removeHighlight('toDo')"ondragover="allowDrop(event); showHighlight('toDo')" ondragleave="removeHighlight('toDo')">
         </div>
     </div>
     <div class="board-section f-column">
         <div class="board-section-category d-flex pointer">
             <h3>In Progress</h3>
-            <img id="plus2" src="../assets/icons/plus_blue.png" class="board-plus-icon" onmouseover="changeIconColor('plus2')"
-                onmouseleave="removeIconColor('plus2')" onclick="setAssignment('inProgress'); showAddTaskWindow()">
+            <img id="plus2" src="../assets/icons/plus_blue.png" class="board-plus-icon" onmouseover="changeIconColor('plus2')"onmouseleave="removeIconColor('plus2')" onclick="setAssignment('inProgress'); showAddTaskWindow()">
         </div>
-        <div class="drag-drop-area" id="inProgress" ondrop="moveTo('inProgress'); removeHighlight('inProgress')"
-            ondragover="allowDrop(event); showHighlight('inProgress')" ondragleave="removeHighlight('inProgress')">
+        <div class="drag-drop-area" id="inProgress" ondrop="moveTo('inProgress'); removeHighlight('inProgress')"ondragover="allowDrop(event); showHighlight('inProgress')" ondragleave="removeHighlight('inProgress')">
         </div>
     </div>
     <div class="board-section f-column">
         <div class="board-section-category d-flex pointer">
             <h3>Awaiting Feedback</h3>
-            <img id="plus3" src="../assets/icons/plus_blue.png" class="board-plus-icon" onmouseover="changeIconColor('plus3')"
-                onmouseleave="removeIconColor('plus3')" onclick="setAssignment('awaitFeedback'); showAddTaskWindow()">
+            <img id="plus3" src="../assets/icons/plus_blue.png" class="board-plus-icon" onmouseover="changeIconColor('plus3')"onmouseleave="removeIconColor('plus3')" onclick="setAssignment('awaitFeedback'); showAddTaskWindow()">
         </div>
-        <div class="drag-drop-area" id="awaitFeedback"
-            ondrop="moveTo('awaitFeedback'); removeHighlight('awaitFeedback')"
-            ondragover="allowDrop(event); showHighlight('awaitFeedback')"
-            ondragleave="removeHighlight('awaitFeedback')">
+        <div class="drag-drop-area" id="awaitFeedback"ondrop="moveTo('awaitFeedback'); removeHighlight('awaitFeedback')"ondragover="allowDrop(event); showHighlight('awaitFeedback')"ondragleave="removeHighlight('awaitFeedback')">
         </div>
     </div>
     <div class="board-section f-column">
         <div class="board-section-category d-flex pointer">
             <h3>Done</h3>
-            <img id="plus4" src="../assets/icons/plus_blue.png" class="board-plus-icon" onmouseover="changeIconColor('plus4')"
-                onmouseleave="removeIconColor('plus4')" onclick="setAssignment('done'); showAddTaskWindow()">
+            <img id="plus4" src="../assets/icons/plus_blue.png" class="board-plus-icon" onmouseover="changeIconColor('plus4')"onmouseleave="removeIconColor('plus4')" onclick="setAssignment('done'); showAddTaskWindow()">
         </div>
-        <div class="drag-drop-area" id="done" ondrop="moveTo('done'); removeHighlight('done')"
-            ondragover="allowDrop(event); showHighlight('done')" ondragleave="removeHighlight('done')">
+        <div class="drag-drop-area" id="done" ondrop="moveTo('done'); removeHighlight('done')"ondragover="allowDrop(event); showHighlight('done')" ondragleave="removeHighlight('done')">
         </div>
     </div>
 </div>

@@ -2,8 +2,8 @@
  * HTML for the small task container
  */
 function generateTask(task, taskSection, topicName, topicColor, progress, subtasksAmount) {
-    taskSection.innerHTML +=
-        `
+    taskSection.innerHTML +=/*html*/`
+    <div class="task-parent">
         <div class="task-box f-column pointer" draggable="true" ondragstart="startDragging(${task['id']})" onclick="showDetailedTask(${task['id']})">
             <span class="task-category" style="background-color: ${topicColor}">${topicName}</span>
             <span class="task-headline">${task['headline']}</span>
@@ -20,6 +20,12 @@ function generateTask(task, taskSection, topicName, topicColor, progress, subtas
                 <img src="../assets/icons/prio_${task['prio']}.png" class="task-prio-icon">
             </div>
         </div>
+        <div class="switch-category">
+            <img src="/assets/icons/up.png" onclick="upCategory(${task['id']})">
+            <img src="/assets/icons/down.png" onclick="downCategory(${task['id']})">
+        </div>
+    </div>
+        
     `;
 }
 
