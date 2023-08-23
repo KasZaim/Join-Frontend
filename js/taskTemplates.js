@@ -24,6 +24,7 @@ function generateTask(task, taskSection, topicName, topicColor, progress, subtas
 }
 
 
+
 /**
  * HTML for the addTask site and popup
  */

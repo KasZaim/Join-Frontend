@@ -473,6 +473,7 @@
     }
 
     .drag-drop-area {
+        align-items: center;
         flex-direction: column;
     }
 
