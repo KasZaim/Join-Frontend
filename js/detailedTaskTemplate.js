@@ -58,7 +58,7 @@ function getEditTaskHTML() {
                 <h4 class="addTask-form-headlines">Due date</h4>
                 <div style="position: relative;">
                     <img class="calendar-icon" src="../assets/icons/calendar.png"></img>
-                    <input type="text" class="pointer" id="editTaskDate" placeholder="dd/mm/yyyy" value="${task['date']}" onclick="showCurrentDate('editTaskDate')" required>
+                    <input type="date" class="pointer" id="editTaskDate" placeholder="dd/mm/yyyy" value="${task['date']}" required>
                 </div>
             </div>
             <div class="popup-text-boxes p-relative">

@@ -148,9 +148,9 @@ function createRandomColor() {
 /**
  * shows the current date
  */
-function showCurrentDate(id) {
-    document.getElementById(id).value = new Date().toLocaleDateString('en-GB');
-}
+// function showCurrentDate(id) {
+//     document.getElementById(id).value = new Date().toLocaleDateString('en-GB');
+// }
 
 
 /**

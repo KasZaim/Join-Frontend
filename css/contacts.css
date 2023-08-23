@@ -193,6 +193,7 @@
 .add-contact-popup,
 .edit-contact-popup {
     position: fixed;
+    max-width: 1100px;
     z-index: 40;
     height: 500px;
     width: 80%;

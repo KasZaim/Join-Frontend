@@ -117,6 +117,7 @@ function clearPrioSection() {
  * saves the inputs of the new task the user wants to create when the create contact popup is called
  */
 function saveCurrentInput() {
+    debugger
     newTaskCache.push(
         {
             'category': currentAssignment,
