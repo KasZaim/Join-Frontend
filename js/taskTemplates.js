@@ -79,7 +79,7 @@ function getAddTaskHTML() {
                 <div>
                     <h4 class="addTask-form-headlines">Due date</h4>
                     <div style="position: relative;">
-                        <input type="date" class="pointer" id="addTaskDate" placeholder="dd/mm/yyyy" required>
+                        <input type="date" class="pointer" id="addTaskDate" placeholder="dd/mm/yyyy" max="2030-01-01" / required>
                     </div>
                 </div>
                 <div>

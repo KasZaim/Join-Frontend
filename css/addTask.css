@@ -645,7 +645,7 @@ label input {
         min-height: unset;
         width: 100%;
         border-radius: 0;
-        padding-top: 480px;
+        padding-top: 550px;
         background-color: rgb(249, 249, 249);
     }
 
@@ -724,7 +724,6 @@ label input {
     .popup-container {
         padding-left: 35px;
         padding-right: 35px;
-        padding-top: 410px;
     }
 
     .popup-container h2 {
@@ -796,10 +795,6 @@ label input {
 }
 
 @media (max-height: 900px) {
-    .popup-container {
-        padding-top: 550px;
-    }
-
     .back-btn-addTask-popup {
         top: 530px;
     }

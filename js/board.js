@@ -266,14 +266,30 @@ function showFilteredTasks(id) {
         let task = cat[i];
         let filterHeadline = task.headline.toLowerCase().includes(searchField);
         let filterDescription = task.description.toLowerCase().includes(searchField);
-        if (filterHeadline) {
-            getTaskInformationFromArray(task, taskSection);
-            checkForSubtasks(task, task['id']);
-        } else if (filterDescription) {
+        let filterTopic = false; 
+
+        filterTopic=showFilteredTasksByTopics(searchField,task)
+
+        if (filterHeadline || filterDescription || filterTopic) {
             getTaskInformationFromArray(task, taskSection);
             checkForSubtasks(task, task['id']);
         }
     }
+}
+
+
+/**
+ * filters the tasks by topics and returns a boolean
+ */
+function showFilteredTasksByTopics(searchField,task) {
+    for (let j = 0; j < topics.length; j++) {
+        if (topics[j].name.toLowerCase().includes(searchField)) {
+            if (task.topic === j) {
+                return true; 
+            }
+        }
+    }
+    return false; 
 }
 
 
