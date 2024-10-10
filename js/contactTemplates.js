@@ -119,7 +119,7 @@ function editContactTemplate() {
                     ${contacts[shownContactIndex]['initials']}
                 </div>
             </div>
-            <form class="edit-contact-form-container f-column j-center" onsubmit="changeContactsData(${contacts[shownContactIndex]['ID']}); return false">
+            <form class="edit-contact-form-container f-column j-center" onsubmit="changeContactsData(${contacts[shownContactIndex]['id']}); return false">
                 <div class="p-relative">
                     <input required id="editContactFirstname" class="add-contact-form" placeholder="Firstname" 
                         type="text" value="${contacts[shownContactIndex]['firstname']}">

@@ -39,3 +39,4 @@ let tasks = [];
 let topics = [];
 let newTaskCache = [];
 let categoriesOrder = ['toDo', 'inProgress', 'awaitFeedback', 'done'];
+let currentTaskID;

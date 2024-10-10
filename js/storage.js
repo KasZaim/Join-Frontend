@@ -42,3 +42,49 @@ async function getItem(key) {
         } throw `Could not find data with key "${key}".`;
     });
 }
+
+async function setItemInBackend(resourceType, data, id=null) {
+    debugger
+    let url = `http://127.0.0.1:8000/api/${resourceType}/`;
+    let method = 'POST';
+    if (id) {
+        url = `${url}${id}/`;  
+        method = 'PATCH';
+    }
+    try {
+        const response = await fetch(url, {
+            method: method,  
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to save ${resourceType}: ${response.statusText}`);
+        }
+
+        return await response.json(); 
+    } catch (error) {
+        console.error('Error:', error);
+        throw error;  
+    }
+}
+
+async function getItemFromBackend(resourceType) {
+    
+    const url = `http://127.0.0.1:8000/api/${resourceType}/`;
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Error fetching ${resourceType} with ID: ${itemId}`);
+        }
+        const data = await response.json();
+        console.log(data)
+        return data;  
+    } catch (error) {
+        console.error('Error:', error);
+        throw error;
+    }
+}

@@ -2,6 +2,8 @@
  * runs the functions to show the detailed clicked task
  */
 function showDetailedTask(id) {
+    id = tasks.findIndex(task => task.id === id);
+    
     resetAddTaskID();
     checkPriority(id);
     getDetailedTaskHTML(id);
@@ -14,6 +16,7 @@ function showDetailedTask(id) {
  * gets the prio from the clicked task pushes it into a variable and specifies the color
  */
 function checkPriority(id) {
+    
     let prio = tasks[id]['prio'];
     if (prio == 'urgent') {
         currentPrioColor = '#ff3d00';
@@ -50,7 +53,7 @@ function showDetailedAssignedClients(id) {
     let clientsSection = document.getElementById(`popupClientSection${id}`);
     for (let i = 0; i < clients.length; i++) {
         let clientID = clients[i];
-        let id = contacts.findIndex(c => c['ID'] == clientID);
+        let id = contacts.findIndex(c => c['id'] == clientID);
         let initials = contacts[id]['initials'];
         let color = contacts[id]['color'];
         let firstName = contacts[id]['firstname'];

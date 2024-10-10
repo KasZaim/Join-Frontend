@@ -238,8 +238,8 @@ function slideOutContent() {
     popupWindow.classList.add('light');
     popupWindow.classList.remove('dark');
     let content = document.getElementById(`${popupContentID}`);
-    content.classList.remove('move-in');
-    content.classList.add('move-out');
+    // content.classList.remove('move-in');
+    // content.classList.add('move-out');
     setTimeout(deleteContent, 325, popupWindow);
 }
 

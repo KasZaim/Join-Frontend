@@ -6,6 +6,7 @@
  * @returns {string} - HTML markup for the detailed task information
  */
 function detailedTaskHTML() {
+    
     return `
     <div class="popup-task f-column p-relative" onclick="stopPropagation(event)">
         <img class="back-btn pointer back-btn-none" src="../assets/icons/plus_blue.png" onclick="closePopupWindow()">
@@ -34,14 +35,21 @@ function detailedTaskHTML() {
     </div>
     `;
 }
-
+function formatDateToYMD(dateStr) {
+    const [day, month, year] = dateStr.split('/');
+    return `${year}-${month}-${day}`;
+}
 
 /**
  * HTML for edit task information of clicked task
  */
 function getEditTaskHTML() {
+    
     let task = tasks[shownTaskID];
     let popup = document.getElementById('popupWindow');
+    let taskDate = task['date'];
+    let formattedDate = formatDateToYMD(taskDate);
+
     popup.innerHTML = `
     <div class="popup-task f-column p-relative" onclick="stopPropagation(event); closeAllDropdowns()">
         <form class="edit-task-form w-100" onsubmit="saveEditedTaskInformation(${shownTaskID}); return false">
@@ -58,7 +66,7 @@ function getEditTaskHTML() {
                 <h4 class="addTask-form-headlines">Due date</h4>
                 <div style="position: relative;">
                     <img class="calendar-icon" src="../assets/icons/calendar.png"></img>
-                    <input type="date" class="pointer" id="editTaskDate" placeholder="dd/mm/yyyy" value="${task['date']}" required>
+                    <input type="date" class="pointer" id="editTaskDate" placeholder="dd/mm/yyyy" value="${formattedDate}" required>
                 </div>
             </div>
             <div class="popup-text-boxes p-relative">
@@ -93,7 +101,7 @@ function getEditTaskHTML() {
             </div>
             <div id="addedClientsBox" class="d-flex f-wrap"></div>
             <div id="addSubtasksSection">
-                <h4 class="addTask-form-headlines">Assigned to</h4>
+                <h4 class="addTask-form-headlines">Subtask</h4>
                 <div class="p-relative" onclick="createNewSubtask()">
                     <input type="text" id="subtaskInput" placeholder="Add new subtask">
                     <img class="subtask-plus-icon pointer" src="../assets/icons/plus_blue.png"></img>

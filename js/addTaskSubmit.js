@@ -37,8 +37,8 @@ async function getInputsFromForm() {
  * pushes the task information to the server, clears the variables afterwards and shows a logo and changes the site to the board
  */
 async function addTask(title, desc, date) {
-    tasks.push(
-        {
+    
+    task ={
             'id': tasks.length,
             'category': currentAssignment,
             'topic': currentCat,
@@ -48,9 +48,10 @@ async function addTask(title, desc, date) {
             'subtasks': currentSubtasks,
             'clients': currentAssignedClients,
             'prio': currentPrio
-        }
-    );
-    await setItemTasks(tasks);
+        };
+        tasks.push(task)
+
+    await setItemInBackend('tasks', task);
     clearVariables();
     if (!(currentPage == ADDTASK_ID)) {
         closePopupWindow();
@@ -117,7 +118,7 @@ function clearPrioSection() {
  * saves the inputs of the new task the user wants to create when the create contact popup is called
  */
 function saveCurrentInput() {
-    debugger
+    
     newTaskCache.push(
         {
             'category': currentAssignment,

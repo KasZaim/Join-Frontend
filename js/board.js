@@ -1,9 +1,18 @@
 /**
  * loads tasks from server
  */
+// async function loadTasks() {
+//     try {
+//         tasks = JSON.parse(await getItem('tasks'));
+//     } catch (e) {
+//         console.error('Loading error:', e);
+//     }
+//     updateTasks();
+// }
 async function loadTasks() {
+    
     try {
-        tasks = JSON.parse(await getItem('tasks'));
+        tasks = await getItemFromBackend('tasks');
     } catch (e) {
         console.error('Loading error:', e);
     }
@@ -15,6 +24,7 @@ async function loadTasks() {
  * loads task topics from server
  */
 async function loadTopics() {
+    
     try {
         topics = JSON.parse(await getItem('topics'));
     } catch (e) {
@@ -70,6 +80,7 @@ function updateTaskSection(id) {
  * gets some information from the tasks and shows them in the small task container 
  */
 function getTaskInformationFromArray(task, taskSection) {
+    
     let topicName = topics[task['topic']]['name'];
     let topicColor = topics[task['topic']]['color'];
     let doneSubtasks = task['subtasks'].filter(s => s.status === true);
@@ -83,9 +94,11 @@ function getTaskInformationFromArray(task, taskSection) {
  * shows every assigned client of the task
  */
 function showClients(task) {
+
     let clientSection = document.getElementById(`taskClientSection${task['id']}`);
     let clientsAmount = task['clients'].length;
     let clients = task['clients'];
+    
     for (let i = 0; i < clients.length; i++) {
         let clientID = clients[i];
         let index = contacts.findIndex(c => c['ID'] == clientID);
@@ -139,10 +152,11 @@ function moveClientDivLeft(clientSection) {
 
 
 /**
- * saves the task ID fro the dragging function
+ * saves the task ID from the dragging function
  */
 function startDragging(id) {
-    currentDraggedElement = id;
+    // currentDraggedElement = id;
+    currentDraggedElement = tasks.findIndex(task => task.id === id);
 }
 
 

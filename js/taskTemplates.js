@@ -100,7 +100,7 @@ function getAddTaskHTML() {
                     </div>
                 </div>
                 <div id="addSubtasksSection">
-                    <h4 class="addTask-form-headlines">Assigned to</h4>
+                    <h4 class="addTask-form-headlines">Subtask</h4>
                     <div id="emptyInputPopupPrio" style="position: absolute;" class="pos-1 d-none">
                         <div class="exclamation-box f-center">
                             <img src="../assets/icons/exclamation.png" class="exclamation">
@@ -321,7 +321,7 @@ function contactHTML(contact) {
     return `
     <label class="label-hover">
         <span>${contact['firstname']} ${contact['lastname']}</span>
-        <input id="contactCheckbox${contact['ID']}" type="checkbox" class="checkbox" onclick="addOrRemoveClients(${contact['ID']})">
+        <input id="contactCheckbox${contact['id']}" type="checkbox" class="checkbox" onclick="addOrRemoveClients(${contact['id']})">
     </label>
     `;
 }

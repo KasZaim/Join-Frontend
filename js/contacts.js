@@ -1,22 +1,24 @@
 /**
  * loads Contacts from the Backend server
  */
+// async function loadContacts() {
+    
+//     try {
+//         contacts = JSON.parse(await getItem('contacts'));
+//     } catch (e) {
+//         console.error('Loading error:', e);
+//     }
+// }
+
 async function loadContacts() {
+    
     try {
-        contacts = JSON.parse(await getItem('contacts'));
+        contacts = await getItemFromBackend('contacts');
     } catch (e) {
         console.error('Loading error:', e);
     }
 }
 
-
-/**
- * saves Contacts on the server
- * @param {JSON} contacts - Data of created Contact or edited Contact
- */
-async function setItemContacts(contacts) {
-    await setItem('contacts', JSON.stringify(contacts));
-}
 
 
 /**
@@ -100,6 +102,7 @@ async function renderContacts(id) {
  * @param {number} i - the index of the selected contact 
  */
 function openDetailedContactCard(i) {
+    
     onContactCard = true;
     let contactPopup = document.getElementById('contactInfo');
     contactPopup.innerHTML = openContactTemplate(i);
@@ -195,7 +198,7 @@ async function createNewContact() {
     let lastname = document.getElementById('createContactSurname').value;
     let mail = document.getElementById('createContactMail').value;
     let phone = document.getElementById('createContactPhone').value;
-    checkForExistingID();
+    // checkForExistingID();
     createRandomColor();
 
     await pushNewContact(firstname, lastname, mail, phone);
@@ -209,9 +212,21 @@ async function createNewContact() {
  * creates a new contact
  */
 async function pushNewContact(firstname, lastname, mail, phone) {
-    contacts.push(
+    // contacts.push(
+    //     {
+    //         // 'ID': contactID,
+    //         'firstname': firstname,
+    //         'lastname': lastname,
+    //         'initials': firstname.charAt(0) + lastname.charAt(0),
+    //         'mail': mail,
+    //         'phone': phone,
+    //         'color': randomContactColor
+    //     }
+    // );
+
+    contact=
         {
-            'ID': contactID,
+            // 'ID': contactID,
             'firstname': firstname,
             'lastname': lastname,
             'initials': firstname.charAt(0) + lastname.charAt(0),
@@ -219,8 +234,8 @@ async function pushNewContact(firstname, lastname, mail, phone) {
             'phone': phone,
             'color': randomContactColor
         }
-    );
-    await setItemContacts(contacts);
+    ;
+    await setItemContacts(contact);
 }
 
 
@@ -237,10 +252,12 @@ function checkForExistingID() {
  * @param {number} i - the index of the selected contact
  */
 function openEditContact(i) {
+    
     shownContactIndex = i;
+    shownContactIndex +1;
     popupContentID = 'editContactPopup';
     currentPopupStyle = 'slide';
-    let template = editContactTemplate();
+    let template = editContactTemplate(i);
     slideInContent(template, popupContentID);
 }
 
@@ -277,17 +294,19 @@ async function updateContactIDs() {
  * updates the selected contact's data 
  */
 async function changeContactsData(id) {
+    
     for (let i = 0; i < contacts.length; i++) {
         let contact = contacts[i];
-        let selectedContactID = contact['ID'];
+        let selectedContactID = contact['id'];
         if (selectedContactID == id) {
             getEditedContactData(contact);
-            await setItemContacts(contacts);
+            await setItemInBackend('contacts', contact, selectedContactID);
         }
     }
     refreshContactPage();
     showSuccessBanner('Contact edited');
 }
+
 
 
 /**

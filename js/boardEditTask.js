@@ -2,10 +2,12 @@
  * runs all function to edit the task
  */
 function editDetailedTask(id) {
+    
     currentAssignedClients = [];
     currentSubtasks = [];
     currentCat = tasks[id]['topic'];
     currentAssignment = tasks[id]['category'];
+    
     getEditTaskHTML(id);
     addPrioColor(currentPrio);
     pushAssignedClientsToArray(tasks[id]['clients']);
@@ -109,7 +111,9 @@ async function saveEditedTaskInformation(id) {
  * gets all information and saves them on the server
  */
 async function updateTaskInformation(id, title, desc, date) {
-    tasks[id] = {
+    debugger
+    let task = tasks.find(task => task.id === id); 
+    task = {
         'id': id,
         'category': currentAssignment,
         'topic': currentCat,
@@ -122,6 +126,7 @@ async function updateTaskInformation(id, title, desc, date) {
     };
     closePopupWindow();
     showSuccessBanner('Task edited');
-    await setItemTasks(tasks);
+
+    await setItemInBackend('tasks', task, id);
     await loadTasks();
 }
