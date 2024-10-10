@@ -235,7 +235,7 @@ async function pushNewContact(firstname, lastname, mail, phone) {
             'color': randomContactColor
         }
     ;
-    await setItemContacts(contact);
+    await setItemInBackend('contacts', contact);
 }
 
 
