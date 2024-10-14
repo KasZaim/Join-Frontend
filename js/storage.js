@@ -44,7 +44,7 @@ async function getItem(key) {
 }
 
 async function setItemInBackend(resourceType, data, id=null) {
-    debugger
+    
     let url = `http://127.0.0.1:8000/api/${resourceType}/`;
     let method = 'POST';
     if (id) {

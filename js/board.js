@@ -172,8 +172,10 @@ function allowDrop(event) {
  * saves the new location of the task on the server and updates the tasks after
  */
 async function moveTo(category) {
-    tasks[currentDraggedElement]['category'] = category;
-    await setItemTasks(tasks);
+    
+    let task = tasks[currentDraggedElement];
+    task['category'] = category;
+    await setItemInBackend('tasks', task, task.id);
     updateTasks();
 }
 /**

@@ -23,6 +23,7 @@ function checkForEmptyFields() {
  * if the fields are empty it refreshes the function above otherwise it runs the tasks push function
  */
 async function getInputsFromForm() {
+    
     checkForEmptyFields();
     if (fieldsFilledCorrectly) {
         let title = document.getElementById('addTask-title-input').value;

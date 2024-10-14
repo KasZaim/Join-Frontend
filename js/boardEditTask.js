@@ -111,10 +111,10 @@ async function saveEditedTaskInformation(id) {
  * gets all information and saves them on the server
  */
 async function updateTaskInformation(id, title, desc, date) {
-    debugger
-    let task = tasks.find(task => task.id === id); 
+    
+    let task = tasks[id]; 
     task = {
-        'id': id,
+        'id': task.id,
         'category': currentAssignment,
         'topic': currentCat,
         'headline': title,
@@ -127,6 +127,6 @@ async function updateTaskInformation(id, title, desc, date) {
     closePopupWindow();
     showSuccessBanner('Task edited');
 
-    await setItemInBackend('tasks', task, id);
+    await setItemInBackend('tasks', task, task.id);
     await loadTasks();
 }
