@@ -30,9 +30,8 @@ class Tasks(models.Model):
     headline = models.CharField(max_length=50)
     description = models.CharField(max_length=250)
     clients = models.ManyToManyField(Contacts, related_name="assigned_tasks")
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateField(null=True, blank=True)
     prio = models.CharField(max_length=50)
-    due_date = models.DateField(null=True, blank=True)
     subtasks = models.JSONField(default=list, null=True, blank=True, help_text="status: toDo, inProgress, awaitingFeedback, done")
     
     def __str__(self):
