@@ -103,7 +103,7 @@ function addContactTemplate() {
     `;
 }
 
-function editContactTemplate() {
+function editContactTemplate(i) {
     return `
     <div id="editContactPopup" class="edit-contact-popup" onclick="stopPropagation(event)">
         <div class="edit-contact-popup-left">
@@ -141,7 +141,7 @@ function editContactTemplate() {
                     <img src="../assets/icons/phone.png" class="input-icon input-icon-phone">
                 </div>
                 <div class="add-btn-container d-flex">
-                    <div class="delete-contact-btn d-flex a-i-center pointer" onclick="deleteContact(${contacts[shownContactIndex]['ID']})">Delete</div>
+                    <div class="delete-contact-btn d-flex a-i-center pointer" onclick="deleteContact(${[shownContactIndex]})">Delete</div>
                     <button class="edit-contact-btn d-flex a-i-center pointer" type="submit">Save</button>
                 </div>
             </form>

@@ -175,7 +175,7 @@ async function moveTo(category) {
     
     let task = tasks[currentDraggedElement];
     task['category'] = category;
-    await setItemInBackend('tasks', task, task.id);
+    await setItemInBackend('tasks', task, task.id, 'PATCH');
     updateTasks();
 }
 /**

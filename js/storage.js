@@ -43,28 +43,34 @@ async function getItem(key) {
     });
 }
 
-async function setItemInBackend(resourceType, data, id=null) {
+async function setItemInBackend(resourceType, data = null, id=null, method = 'POST') {
     
     let url = `http://127.0.0.1:8000/api/${resourceType}/`;
-    let method = 'POST';
+    
     if (id) {
-        url = `${url}${id}/`;  
-        method = 'PATCH';
+        url = `${url}${id}/`;
     }
+
+    if (method === 'DELETE') {
+        data = null;  // Bei DELETE kein Body nötig
+    }
+
     try {
         const response = await fetch(url, {
             method: method,  
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: data ? JSON.stringify(data) : null
         });
 
         if (!response.ok) {
             throw new Error(`Failed to save ${resourceType}: ${response.statusText}`);
         }
 
-        return await response.json(); 
+        if (method !== 'DELETE') {
+            return await response.json(); 
+        }
     } catch (error) {
         console.error('Error:', error);
         throw error;  

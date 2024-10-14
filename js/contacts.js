@@ -254,7 +254,7 @@ function checkForExistingID() {
 function openEditContact(i) {
     
     shownContactIndex = i;
-    shownContactIndex +1;
+    // shownContactIndex +1;
     popupContentID = 'editContactPopup';
     currentPopupStyle = 'slide';
     let template = editContactTemplate(i);
@@ -266,13 +266,15 @@ function openEditContact(i) {
  * deletes the selected contact
  */
 async function deleteContact(id) {
+    
     for (let i = 0; i < contacts.length; i++) {
-        let selectedContactID = contacts[i]['ID'];
+        let selectedContactID = contacts[i]['id'];
         if (selectedContactID == id) {
+            let contactID = contacts[selectedContactID]['id']
             await removeDeletedClientsFromTasks(id);
             contacts.splice(i, 1);
             await updateContactIDs();
-            await setItemContacts(contacts);
+            await setItemInBackend('contacts', null, contactID, 'DELETE');
         }
     }
     refreshContactPage();
@@ -300,7 +302,7 @@ async function changeContactsData(id) {
         let selectedContactID = contact['id'];
         if (selectedContactID == id) {
             getEditedContactData(contact);
-            await setItemInBackend('contacts', contact, selectedContactID);
+            await setItemInBackend('contacts', contact, selectedContactID, 'PATCH');
         }
     }
     refreshContactPage();
@@ -343,6 +345,7 @@ function refreshContactPage() {
  * @param {*number} id - ID of the deleted contact
  */
 async function removeDeletedClientsFromTasks(id) {
+    
     for (let i = 0; i < tasks.length; i++) {
         const task = tasks[i];
         let taskClients = task['clients'];

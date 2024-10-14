@@ -2,12 +2,12 @@
  * runs all function to edit the task
  */
 function editDetailedTask(id) {
-    
+
     currentAssignedClients = [];
     currentSubtasks = [];
     currentCat = tasks[id]['topic'];
     currentAssignment = tasks[id]['category'];
-    
+
     getEditTaskHTML(id);
     addPrioColor(currentPrio);
     pushAssignedClientsToArray(tasks[id]['clients']);
@@ -58,21 +58,21 @@ function checkForExistingSubtasks(id) {
  * deletes the clicked task from the server then closes the window, loads the tasks again and clears variables
  */
 async function deleteShownTask(id) {
+    
+    let task = tasks[id]
     try {
-        let tasks = JSON.parse(await getItem('tasks'));
-        let index = tasks.findIndex(t => t.id === id);
-        if (index !== -1) {
-            tasks.splice(index, 1);
-            await setItem('tasks', JSON.stringify(tasks));
-        }
+        await setItemInBackend('tasks', null, task.id, 'DELETE');
+        
+        tasks.splice(id, 1);
+        closePopupWindow();
+        showSuccessBanner('Task deleted');
+        await updateTasksID();
+        await loadTasks();
+        clearVariables();
     } catch (e) {
         console.error('Deleting error:', e);
     }
-    closePopupWindow();
-    showSuccessBanner('Task deleted');
-    await updateTasksID();
-    await loadTasks();
-    clearVariables();
+
 }
 
 
@@ -111,8 +111,8 @@ async function saveEditedTaskInformation(id) {
  * gets all information and saves them on the server
  */
 async function updateTaskInformation(id, title, desc, date) {
-    
-    let task = tasks[id]; 
+
+    let task = tasks[id];
     task = {
         'id': task.id,
         'category': currentAssignment,
@@ -127,6 +127,6 @@ async function updateTaskInformation(id, title, desc, date) {
     closePopupWindow();
     showSuccessBanner('Task edited');
 
-    await setItemInBackend('tasks', task, task.id);
+    await setItemInBackend('tasks', task, task.id, 'PATCH');
     await loadTasks();
 }

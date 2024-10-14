@@ -52,7 +52,7 @@ async function addTask(title, desc, date) {
         };
         tasks.push(task)
 
-    await setItemInBackend('tasks', task);
+    await setItemInBackend('tasks', task,);
     clearVariables();
     if (!(currentPage == ADDTASK_ID)) {
         closePopupWindow();
