@@ -48,6 +48,7 @@ function setUsernameToGreet() {
  * displays the number of tasks in the summary
  */
 function getTaskNumbers() {
+    
     showTaskNumbers('inProgress', 'tasksInProgressCount');
     showTaskNumbers('awaitFeedback', 'tasksAwaitingFeedbackCount');
     showTaskNumbers('toDo', 'tasksToDoCount');
@@ -63,6 +64,7 @@ function getTaskNumbers() {
  * @param {string} id - the id of the element to display the count
  */
 function showTaskNumbers(category, id) {
+    
     let tasksOfSelectedCat = tasks.filter(t => t.category === `${category}`);
     let amount = tasksOfSelectedCat.length;
     document.getElementById(`${id}`).innerHTML = amount;
