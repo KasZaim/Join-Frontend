@@ -23,11 +23,11 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class TasksSerializer(serializers.ModelSerializer):
-    date = serializers.DateTimeField(format="%d/%m/%Y", read_only=True)
+    # date = serializers.DateTimeField(format="%d/%m/%Y", read_only=True)
     task_link = serializers.SerializerMethodField()
     class Meta:
         model = Tasks
-        fields = ['id','category', 'topic', 'headline', 'description', 'clients', 'prio', 'due_date', 'date', 'subtasks','task_link']
+        fields = ['id','category', 'topic', 'headline', 'description', 'clients', 'prio', 'date', 'subtasks','task_link']
     
     def get_subtasks(self, obj):
         subtasks = obj.subtasks.all()
