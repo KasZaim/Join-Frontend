@@ -313,5 +313,6 @@ function showFilteredTasksByTopics(searchField,task) {
  * sets the current assigned category
  */
 function setAssignment(id) {
+    debugger
     currentAssignment = id;
 }
