@@ -21,6 +21,7 @@ function showAddTaskWindow() {
     currentPopupStyle = 'slide';
     popupContentID = 'popupContainer'
     let template = getAddTaskHTML();
+    
 
     slideInContent(template, popupContentID);
     clearVariables();

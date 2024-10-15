@@ -6,7 +6,7 @@
             <input id="searchTasks" type="text" placeholder="Find Task" onkeydown="filterTasks()">
             <img class="board-headline-icon" src="../assets/icons/loupe.png" onclick="clearSearchField()">
         </div>
-        <div class="add-task-button f-center pointer" onclick="showAddTaskWindow()">
+        <div class="add-task-button f-center pointer" onclick="showAddTaskWindow(); setAssignment('toDo')">
             <span>Add Task</span>
             <img class="board-headline-icon whiteout-icon" src="../assets/icons/plus_blue.png">
         </div>

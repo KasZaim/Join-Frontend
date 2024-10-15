@@ -116,7 +116,7 @@ function getAddTaskHTML() {
             </div>
             <div class="addTask-commit-buttons d-flex j-end" id="commitButtonsBox">
                 <button class="addTask-clear-btn" type="reset" onclick="clearAddTaskSide()">Clear x</button>
-                <button class="submit-btn pointer" type="submit">Create Task ✓</button>
+                <button class="submit-btn pointer"  type="submit">Create Task ✓</button>
             </div>
             <div id="emptyInputPopupCat" style="position: absolute;" class="pos-2 d-none">
                 <div class="exclamation-box f-center">
