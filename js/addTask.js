@@ -390,6 +390,17 @@ function addSubtaskOnEnter() {
  * changes subtask status
  * @param {number} i - Index of the subtask
  */
-function changeSubtaskStatus(i) {
-    currentSubtasks[i]['status'] = !currentSubtasks[i]['status'];
+async function changeSubtaskStatus(i,subtaskName) {
+    debugger
+    let task =  tasks[i];
+    let subTask = task.subtasks.find(t => t.text === subtaskName);
+    if (subTask) {
+        subTask['status'] = !subTask['status']; 
+    }
+    let updatedSubtaskData = {
+        'subtasks': task.subtasks  
+    };
+    await setItemInBackend('tasks', updatedSubtaskData, task.id, 'PATCH');
+    updateTasks()
+
 }

@@ -53,12 +53,14 @@ async function addTask(title, desc, date) {
         tasks.push(task)
 
     await setItemInBackend('tasks', task,);
+    await loadTasks();
     clearVariables();
     if (!(currentPage == ADDTASK_ID)) {
         closePopupWindow();
     }
     showSuccessBanner('Task created');
     changeSite(BOARD_ID);
+    
 }
 
 

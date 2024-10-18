@@ -31,7 +31,10 @@ function detailedTaskHTML() {
         <div id="popupClientSection${shownTaskID}" class="popup-clients-container d-flex">
         </div>
         <span id="popupSubtaskHeadline${shownTaskID}" class="popup-span m-t-5"><b>Subtasks</b></span>
-        <div id="popupSubtaskSection${shownTaskID}" class="popup-subtask-container f-column"></div>
+        <div id="popupSubtaskSection${shownTaskID}" class="popup-subtask-container f-column">
+            
+        </div>
+        
     </div>
     `;
 }
@@ -43,12 +46,10 @@ function formatDateToYMD(dateStr) {
 /**
  * HTML for edit task information of clicked task
  */
-function getEditTaskHTML() {
+function getEditTaskHTML(index) {
     
-    let task = tasks[shownTaskID];
+    let task = tasks[index];
     let popup = document.getElementById('popupWindow');
-    let taskDate = task['date'];
-    let formattedDate = formatDateToYMD(taskDate);
 
     popup.innerHTML = `
     <div class="popup-task f-column p-relative" onclick="stopPropagation(event); closeAllDropdowns()">
@@ -65,8 +66,8 @@ function getEditTaskHTML() {
             <div class="popup-text-boxes">
                 <h4 class="addTask-form-headlines">Due date</h4>
                 <div style="position: relative;">
-                    <img class="calendar-icon" src="../assets/icons/calendar.png"></img>
-                    <input type="date" class="pointer" id="editTaskDate" placeholder="dd/mm/yyyy" value="${formattedDate}" required>
+                    
+                    <input type="date" class="pointer" id="editTaskDate" placeholder="dd/mm/yyyy" value="${task['date']}" required>
                 </div>
             </div>
             <div class="popup-text-boxes p-relative">

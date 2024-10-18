@@ -13,7 +13,9 @@
 async function loadContacts() {
     
     try {
+        contacts = [];
         contacts = await getItemFromBackend('contacts');
+        console.log(contacts)
     } catch (e) {
         console.error('Loading error:', e);
     }
@@ -212,21 +214,9 @@ async function createNewContact() {
  * creates a new contact
  */
 async function pushNewContact(firstname, lastname, mail, phone) {
-    // contacts.push(
-    //     {
-    //         // 'ID': contactID,
-    //         'firstname': firstname,
-    //         'lastname': lastname,
-    //         'initials': firstname.charAt(0) + lastname.charAt(0),
-    //         'mail': mail,
-    //         'phone': phone,
-    //         'color': randomContactColor
-    //     }
-    // );
-
+    
     contact=
         {
-            // 'ID': contactID,
             'firstname': firstname,
             'lastname': lastname,
             'initials': firstname.charAt(0) + lastname.charAt(0),
@@ -235,7 +225,8 @@ async function pushNewContact(firstname, lastname, mail, phone) {
             'color': randomContactColor
         }
     ;
-    await setItemInBackend('contacts', contact);
+    let savedContact = await setItemInBackend('contacts', contact);
+    contacts.push(savedContact);
 }
 
 
@@ -265,20 +256,26 @@ function openEditContact(i) {
 /**
  * deletes the selected contact
  */
-async function deleteContact(id) {
-    
-    for (let i = 0; i < contacts.length; i++) {
-        let selectedContactID = contacts[i]['id'];
-        if (selectedContactID == id) {
-            let contactID = contacts[selectedContactID]['id']
-            await removeDeletedClientsFromTasks(id);
-            contacts.splice(i, 1);
-            await updateContactIDs();
-            await setItemInBackend('contacts', null, contactID, 'DELETE');
-        }
+async function deleteContact(index) {
+    try {
+        let selectedContactID = contacts[index]['id'];
+
+        // Entferne den Kontakt aus den Aufgaben, falls nötig
+        await removeDeletedClientsFromTasks(index);
+
+        // Lösche den Kontakt auf dem Backend
+        await setItemInBackend('contacts', null, selectedContactID, 'DELETE');
+
+        // Entferne den Kontakt aus dem 'contacts'-Array
+        contacts.splice(index, 1);
+
+        // Aktualisiere die Kontaktliste
+        refreshContactPage();
+        showSuccessBanner('Contact deleted');
+        showContactsFirstLetters();
+    } catch (error) {
+        console.error('Error deleting contact:', error);
     }
-    refreshContactPage();
-    showSuccessBanner('Contact deleted');
 }
 
 

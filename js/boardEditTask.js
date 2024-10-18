@@ -2,7 +2,7 @@
  * runs all function to edit the task
  */
 function editDetailedTask(id) {
-
+    
     currentAssignedClients = [];
     currentSubtasks = [];
     currentCat = tasks[id]['topic'];
@@ -10,6 +10,7 @@ function editDetailedTask(id) {
 
     getEditTaskHTML(id);
     addPrioColor(currentPrio);
+    
     pushAssignedClientsToArray(tasks[id]['clients']);
     generateContacts();
     pushAttachedSubtasksToArray(tasks[id]['subtasks']);
@@ -33,6 +34,7 @@ function pushAssignedClientsToArray(clients) {
  */
 function pushAttachedSubtasksToArray(subtasks) {
     for (let i = 0; i < subtasks.length; i++) {
+        
         let subtask = subtasks[i];
         currentSubtasks.push(subtask);
     }
@@ -101,9 +103,23 @@ async function saveEditedTaskInformation(id) {
         let title = document.getElementById('editTaskTitle').value;
         let desc = document.getElementById('editTaskDesc').value;
         let date = document.getElementById('editTaskDate').value;
+        captureEditedSubtasks()
         await updateTaskInformation(id, title, desc, date);
         clearVariables();
     }
+}
+
+function captureEditedSubtasks() {
+    currentSubtasks = [];  
+    let subtaskInputs = document.querySelectorAll('.subtask-input');  
+debugger
+    subtaskInputs.forEach((input, index) => {
+        let subtaskText = input.value;  
+
+        currentSubtasks.push({
+            'text': subtaskText,
+        });
+    });
 }
 
 
@@ -126,7 +142,6 @@ async function updateTaskInformation(id, title, desc, date) {
     };
     closePopupWindow();
     showSuccessBanner('Task edited');
-
     await setItemInBackend('tasks', task, task.id, 'PATCH');
     await loadTasks();
 }

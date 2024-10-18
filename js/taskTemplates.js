@@ -257,8 +257,7 @@ function getPrioContainerHTML() {
 function getSubtaskBoxHTML(i, text, checkmark) {
     return `
     <div class="addTask-subtask-container d-flex a-i-center j-start">
-        <input id="editTaskSubtask${i}" type="checkbox" class="subtask-checkbox" onclick="changeSubtaskStatus(${i})" ${checkmark}>
-        <label class="subtask-text" for="editTaskSubtask${i}">${text}</label>
+         <input type="text" class="subtask-input" id="subtaskInput${i}" value="${text}" />
     </div>
     `;
 }

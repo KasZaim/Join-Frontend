@@ -77,9 +77,10 @@ function showDetailedSubtasks(task, id) {
         let subtask = task['subtasks'][i]['text'];
         let status = task['subtasks'][i]['status'];
         if (status) {
-            getCrossedOutSubtaskHTML(subtaskSection, subtask);
+            
+            getCrossedOutSubtaskHTML(subtaskSection, subtask,id);
         } else {
-            getSubtaskHTML(subtaskSection, subtask);
+            getSubtaskHTML(subtaskSection, subtask, id);
         }
     }
 }
@@ -88,11 +89,12 @@ function showDetailedSubtasks(task, id) {
 /**
  * HTML for open subtasks
  */
-function getSubtaskHTML(subtaskSection, subtask) {
+function getSubtaskHTML(subtaskSection, subtask,i) {
     subtaskSection.innerHTML += `
     <div class="d-flex gap-8">
         <span>-</span>
         <span class="popup-subtask-span">${subtask}</span>
+        <input id="editTaskSubtask${i}" type="checkbox" class="subtask-checkbox" onclick="changeSubtaskStatus(${i}, '${subtask}')" >
     </div>
     `;
 }
@@ -101,11 +103,12 @@ function getSubtaskHTML(subtaskSection, subtask) {
 /**
  * HTML for done subtasks
  */
-function getCrossedOutSubtaskHTML(subtaskSection, subtask) {
+function getCrossedOutSubtaskHTML(subtaskSection, subtask,i) {
     subtaskSection.innerHTML += `
     <div class="d-flex gap-8">
         <span class="opa-03">-</span>
         <span class="popup-subtask-span line-through opa-03">${subtask}</span>
+        <input id="editTaskSubtask${i}" type="checkbox" class="subtask-checkbox" onclick="changeSubtaskStatus(${i}, '${subtask}')" checked="">
     </div>
     `;
 }
