@@ -260,16 +260,11 @@ async function deleteContact(index) {
     try {
         let selectedContactID = contacts[index]['id'];
 
-        // Entferne den Kontakt aus den Aufgaben, falls nötig
         await removeDeletedClientsFromTasks(index);
-
-        // Lösche den Kontakt auf dem Backend
         await setItemInBackend('contacts', null, selectedContactID, 'DELETE');
 
-        // Entferne den Kontakt aus dem 'contacts'-Array
         contacts.splice(index, 1);
 
-        // Aktualisiere die Kontaktliste
         refreshContactPage();
         showSuccessBanner('Contact deleted');
         showContactsFirstLetters();
@@ -341,18 +336,38 @@ function refreshContactPage() {
  * removes the deleted contact from all tasks it was assigned to
  * @param {*number} id - ID of the deleted contact
  */
-async function removeDeletedClientsFromTasks(id) {
+// async function removeDeletedClientsFromTasks(id) {
     
+//     for (let i = 0; i < tasks.length; i++) {
+//         const task = tasks[i];
+//         let taskClients = task['clients'];
+//         for (let j = 0; j < taskClients.length; j++) {
+//             let taskClient = taskClients[j];
+//             if (taskClient == id) {
+//                 debugger
+//                 taskClients.splice(j, 1);
+//                 await setItemTasks(tasks);
+//                 await loadTasks();
+//             }
+//         }
+//     }
+// }
+async function removeDeletedClientsFromTasks(contactIndex) {
     for (let i = 0; i < tasks.length; i++) {
         const task = tasks[i];
         let taskClients = task['clients'];
-        for (let j = 0; j < taskClients.length; j++) {
-            let taskClient = taskClients[j];
-            if (taskClient == id) {
-                taskClients.splice(j, 1);
-                await setItemTasks(tasks);
-                await loadTasks();
+        
+        if (taskClients[contactIndex]) {
+            taskClients.splice(contactIndex, 1);
+
+            if (taskClients.length == 0) {
+                let taskIndex = tasks.indexOf(task);  
+                await deleteShownTask(taskIndex);  
             }
         }
     }
+
+    await setItemTasks(tasks);
+    await loadTasks();  // Aktualisiere die Ansicht
 }
+

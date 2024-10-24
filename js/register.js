@@ -35,16 +35,33 @@ async function register() {
  * pushes new user to the users array and shows feedback
  */
 async function createNewUser(name, email, password) {
-    users.push({
-        name: name,
+    createRandomColor()
+    const initials = getInitials(name);
+    const color = randomContactColor;
+    console.log(randomContactColor)
+    user = {
+        username: name,
         email: email,
         password: password,
-    });
+        profile: {
+            initials: initials,
+            color: color
+        }
+    };
+
+    users.push(user);
+    
     await setItem('users', JSON.stringify(users));
+    await setItemInBackend('auth/registration', user);
     showSuccessBanner('New user created');
     renderLogin();
 }
 
+function getInitials(name) {
+    const names = name.trim().split(' ');
+    const initials = names.map(n => n.charAt(0).toUpperCase()).join('');
+    return initials.substring(0, 2);  // Maximal 2 Zeichen
+}
 
 /**
  * Deletes a user from the storage by email.

@@ -72,6 +72,7 @@ function updateTaskSection(id) {
         getTaskInformationFromArray(task, taskSection);
         checkForSubtasks(task, task['id']);
         showClients(task);
+
     }
 }
 
@@ -94,14 +95,14 @@ function getTaskInformationFromArray(task, taskSection) {
  * shows every assigned client of the task
  */
 function showClients(task) {
-
+    
     let clientSection = document.getElementById(`taskClientSection${task['id']}`);
     let clientsAmount = task['clients'].length;
     let clients = task['clients'];
     
     for (let i = 0; i < clients.length; i++) {
         let clientID = clients[i];
-        let index = contacts.findIndex(c => c['ID'] == clientID);
+        let index = contacts.findIndex(c => c['id'] == clientID);
         if (index !== -1) {
             let initials = contacts[index]['initials'];
             let color = contacts[index]['color'];
@@ -172,7 +173,7 @@ function allowDrop(event) {
  * saves the new location of the task on the server and updates the tasks after
  */
 async function moveTo(category) {
-    
+    debugger
     let task = tasks[currentDraggedElement];
     task['category'] = category;
     await setItemInBackend('tasks', task, task.id, 'PATCH');

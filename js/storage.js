@@ -46,7 +46,6 @@ async function getItem(key) {
 async function setItemInBackend(resourceType, data = null, id=null, method = 'POST') {
     debugger
     let url = `http://127.0.0.1:8000/api/${resourceType}/`;
-    
     if (id) {
         url = `${url}${id}/`;
     }
@@ -78,7 +77,6 @@ async function setItemInBackend(resourceType, data = null, id=null, method = 'PO
 }
 
 async function getItemFromBackend(resourceType) {
-    
     const url = `http://127.0.0.1:8000/api/${resourceType}/`;
 
     try {
