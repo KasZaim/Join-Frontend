@@ -37,10 +37,13 @@ async function register() {
 async function createNewUser(name, email, password) {
     createRandomColor()
     const initials = getInitials(name);
+    const { firstName, lastName } = splitName(name);
     const color = randomContactColor;
     console.log(randomContactColor)
     user = {
-        username: name,
+        username: firstName,
+        first_name: firstName,
+        last_name: lastName,
         email: email,
         password: password,
         profile: {
@@ -50,9 +53,27 @@ async function createNewUser(name, email, password) {
     };
 
     users.push(user);
-    
     await setItem('users', JSON.stringify(users));
-    await setItemInBackend('auth/registration', user);
+    try {
+        const response = await setItemInBackend('auth/registration', user);
+
+        if (response.ok) {
+            const result = await response.json();
+            const token = result.token;
+            
+            localStorage.setItem('authToken', token);
+            showSuccessBanner('New user created and token stored');
+            renderLogin();
+        } else {
+            const error = await response.json();
+            console.error("Registrierungsfehler:", error);
+            showErrorBanner('Failed to create user');
+        }
+    } catch (error) {
+        console.error("Netzwerkfehler:", error);
+        showErrorBanner('Network error');
+    }
+    
     showSuccessBanner('New user created');
     renderLogin();
 }
@@ -62,6 +83,17 @@ function getInitials(name) {
     const initials = names.map(n => n.charAt(0).toUpperCase()).join('');
     return initials.substring(0, 2);  // Maximal 2 Zeichen
 }
+function splitName(fullName) {
+    const nameParts = fullName.split(' ');
+    const firstName = nameParts[0];
+    const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';  // Alle weiteren Teile als Nachname
+
+    return {
+        firstName: firstName,
+        lastName: lastName
+    };
+}
+
 
 /**
  * Deletes a user from the storage by email.
