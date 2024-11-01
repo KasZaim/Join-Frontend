@@ -40,7 +40,7 @@ async function createNewUser(name, email, password) {
     const color = randomContactColor;
     console.log(randomContactColor)
     user = {
-        username: name,
+        username: email,
         email: email,
         password: password,
         profile: {
