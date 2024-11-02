@@ -44,7 +44,7 @@ async function getItem(key) {
 }
 
 async function setItemInBackend(resourceType, data = null, id=null, method = 'POST') {
-    debugger
+    
     let url = `http://127.0.0.1:8000/api/${resourceType}/`;
     const token = localStorage.getItem('authToken');
     if (id) {
@@ -79,6 +79,7 @@ async function setItemInBackend(resourceType, data = null, id=null, method = 'PO
 }
 
 async function getItemFromBackend(resourceType) {
+    
     const url = `http://127.0.0.1:8000/api/${resourceType}/`;
     const token = localStorage.getItem('authToken');
     try {
@@ -94,7 +95,6 @@ async function getItemFromBackend(resourceType) {
             throw new Error(`Error fetching ${resourceType}`);
         }
         const data = await response.json();
-        console.log(data)
         return data;  
     } catch (error) {
         console.error('Error:', error);

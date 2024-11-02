@@ -18,9 +18,16 @@ let currentUserForNewPassword = [];
  * Initializes the app by rendering the login form after a 300ms delay.
  */
 function init() {
-    setTimeout(function () {
+    const token = localStorage.getItem('authToken');
+    const user = localStorage.getItem('currentUser');
+    if (token && user) {
+        forwardToMainPage();
+    } else {
+        setTimeout(function () {
         renderLogin()
     }, 300);
+    }
+    
 }
 
 
@@ -33,7 +40,6 @@ async function renderLogin() {
     card.innerHTML = loginTemplate();
     let header = document.getElementById('loginHeaderRight');
     header.classList.remove("d-none");
-    await loadUsers();
 }
 
 
@@ -152,23 +158,22 @@ async function login() {
     disableBtn('loginBtn');
     let email = document.getElementById('emailInput').value;
     let password = document.getElementById('passwordInput').value;
-    let user = users.find((user) => user.email === email);
-    if (!user) {
-        showFailureBanner('User not found!');
-        enableBtn('loginBtn');
-    } 
     try {
-        
         const response = await fetch('http://127.0.0.1:8000/api/auth/login/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ username: user.username, password: password }) 
+            body: JSON.stringify({ username: email, password: password }) 
         });
         if (response.ok) {
             const data = await response.json();
             localStorage.setItem('authToken', data.token);
+            const user = {
+                'first_name':data.first_name,
+                'last_name':data.last_name,
+                'token':data.token
+            }
             createCurrentUser(user)
             showSuccessBanner('Login successful!');
             forwardToMainPage();
@@ -209,6 +214,7 @@ function forwardToMainPage() {
  */
 function logOut() {
     localStorage.removeItem(CURRENT_USER_KEY);
+    localStorage.removeItem('authToken');
     window.location.href = "../index.html";
 }
 

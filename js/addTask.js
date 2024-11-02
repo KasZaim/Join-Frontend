@@ -391,7 +391,7 @@ function addSubtaskOnEnter() {
  * @param {number} i - Index of the subtask
  */
 async function changeSubtaskStatus(i,subtaskName) {
-    debugger
+    
     let task =  tasks[i];
     let subTask = task.subtasks.find(t => t.text === subtaskName);
     if (subTask) {

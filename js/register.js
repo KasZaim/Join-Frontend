@@ -5,7 +5,6 @@
 async function loadUsers() {
     try {
         users = (await getItemFromBackend('users'));
-        return users
     } catch (e) {
         console.error('Loading error:', e);
     }
@@ -40,9 +39,8 @@ async function createNewUser(name, email, password) {
     const initials = getInitials(name);
     const { firstName, lastName } = splitName(name);
     const color = randomContactColor;
-    console.log(randomContactColor)
     user = {
-        username: firstName,
+        username: email,
         first_name: firstName,
         last_name: lastName,
         email: email,
@@ -52,15 +50,12 @@ async function createNewUser(name, email, password) {
             color: color
         }
     };
-
     users.push(user);
     await setItem('users', JSON.stringify(users));
     try {
         let response = await setItemInBackend('auth/registration', user);
 
         if (response) {
-            debugger
-            console.log(response)
             localStorage.setItem('authToken', response.token);
             renderLogin();
         } 

@@ -145,12 +145,6 @@ function createRandomColor() {
 }
 
 
-/**
- * shows the current date
- */
-// function showCurrentDate(id) {
-//     document.getElementById(id).value = new Date().toLocaleDateString('en-GB');
-// }
 
 
 /**
@@ -238,8 +232,6 @@ function slideOutContent() {
     popupWindow.classList.add('light');
     popupWindow.classList.remove('dark');
     let content = document.getElementById(`${popupContentID}`);
-    // content.classList.remove('move-in');
-    // content.classList.add('move-out');
     setTimeout(deleteContent, 325, popupWindow);
 }
 

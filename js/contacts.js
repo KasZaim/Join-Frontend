@@ -1,21 +1,11 @@
 /**
- * loads Contacts from the Backend server
+ * loads contacts from Backend Server
  */
-// async function loadContacts() {
-    
-//     try {
-//         contacts = JSON.parse(await getItem('contacts'));
-//     } catch (e) {
-//         console.error('Loading error:', e);
-//     }
-// }
-
 async function loadContacts() {
     
     try {
         contacts = [];
         contacts = await getItemFromBackend('contacts');
-        console.log(contacts)
     } catch (e) {
         console.error('Loading error:', e);
     }
@@ -331,27 +321,6 @@ function refreshContactPage() {
     }
 }
 
-
-/**
- * removes the deleted contact from all tasks it was assigned to
- * @param {*number} id - ID of the deleted contact
- */
-// async function removeDeletedClientsFromTasks(id) {
-    
-//     for (let i = 0; i < tasks.length; i++) {
-//         const task = tasks[i];
-//         let taskClients = task['clients'];
-//         for (let j = 0; j < taskClients.length; j++) {
-//             let taskClient = taskClients[j];
-//             if (taskClient == id) {
-//                 debugger
-//                 taskClients.splice(j, 1);
-//                 await setItemTasks(tasks);
-//                 await loadTasks();
-//             }
-//         }
-//     }
-// }
 async function removeDeletedClientsFromTasks(contactIndex) {
     for (let i = 0; i < tasks.length; i++) {
         const task = tasks[i];
