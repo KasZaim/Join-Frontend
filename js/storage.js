@@ -46,6 +46,7 @@ async function getItem(key) {
 async function setItemInBackend(resourceType, data = null, id=null, method = 'POST') {
     debugger
     let url = `http://127.0.0.1:8000/api/${resourceType}/`;
+    const token = localStorage.getItem('authToken');
     if (id) {
         url = `${url}${id}/`;
     }
@@ -58,7 +59,8 @@ async function setItemInBackend(resourceType, data = null, id=null, method = 'PO
         const response = await fetch(url, {
             method: method,  
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                ...(token && { 'Authorization': `Token ${token}` })
             },
             body: data ? JSON.stringify(data) : null
         });
@@ -78,11 +80,18 @@ async function setItemInBackend(resourceType, data = null, id=null, method = 'PO
 
 async function getItemFromBackend(resourceType) {
     const url = `http://127.0.0.1:8000/api/${resourceType}/`;
-
+    const token = localStorage.getItem('authToken');
     try {
-        const response = await fetch(url);
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                ...(token && { 'Authorization': `Token ${token}` })  
+            }
+        });
+        
         if (!response.ok) {
-            throw new Error(`Error fetching ${resourceType} with ID: ${itemId}`);
+            throw new Error(`Error fetching ${resourceType}`);
         }
         const data = await response.json();
         console.log(data)

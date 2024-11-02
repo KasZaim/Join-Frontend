@@ -4,7 +4,8 @@
  */
 async function loadUsers() {
     try {
-        users = JSON.parse(await getItem('users'));
+        users = (await getItemFromBackend('users'));
+        return users
     } catch (e) {
         console.error('Loading error:', e);
     }
@@ -55,23 +56,16 @@ async function createNewUser(name, email, password) {
     users.push(user);
     await setItem('users', JSON.stringify(users));
     try {
-        const response = await setItemInBackend('auth/registration', user);
+        let response = await setItemInBackend('auth/registration', user);
 
-        if (response.ok) {
-            const result = await response.json();
-            const token = result.token;
-            
-            localStorage.setItem('authToken', token);
-            showSuccessBanner('New user created and token stored');
+        if (response) {
+            debugger
+            console.log(response)
+            localStorage.setItem('authToken', response.token);
             renderLogin();
-        } else {
-            const error = await response.json();
-            console.error("Registrierungsfehler:", error);
-            showErrorBanner('Failed to create user');
-        }
+        } 
     } catch (error) {
         console.error("Netzwerkfehler:", error);
-        showErrorBanner('Network error');
     }
     
     showSuccessBanner('New user created');

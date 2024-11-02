@@ -39,7 +39,7 @@ function setUsernameToGreet() {
     if (currentUser.length == 0) {
         document.getElementById('userFirstname').innerHTML = 'Dear Guest';
     } else {
-        document.getElementById('userFirstname').innerHTML = `${currentUser[0]['name']}`;
+        document.getElementById('userFirstname').innerHTML = `${currentUser[0]['first_name']}`;
     }
 }
 

@@ -148,7 +148,7 @@ async function setNewPassword(userIndex, newPassword) {
 /**
  * Logs the user into the application.
  */
-function login() {
+async function login() {
     disableBtn('loginBtn');
     let email = document.getElementById('emailInput').value;
     let password = document.getElementById('passwordInput').value;
@@ -156,13 +156,33 @@ function login() {
     if (!user) {
         showFailureBanner('User not found!');
         enableBtn('loginBtn');
-    } else if (password !== user.password) {
-        showFailureBanner('Invalid password!');
+    } 
+    try {
+        
+        const response = await fetch('http://127.0.0.1:8000/api/auth/login/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username: user.username, password: password }) 
+        });
+        if (response.ok) {
+            const data = await response.json();
+            localStorage.setItem('authToken', data.token);
+            createCurrentUser(user)
+            showSuccessBanner('Login successful!');
+            forwardToMainPage();
+            return;
+        } else {
+            const error = await response.json();
+            showFailureBanner(error.error || 'Login failed!');
+            enableBtn('loginBtn');
+        }
+    } catch (error) {
+        console.error('An error occurred:', error);
+        showFailureBanner('An error occurred. Please try again.');
         enableBtn('loginBtn');
-    } else {
-        createCurrentUser(user);
-        forwardToMainPage();
-    }
+    }     
 }
 
 
