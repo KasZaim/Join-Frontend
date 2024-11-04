@@ -208,6 +208,31 @@ function forwardToMainPage() {
     window.location.href = "html/mainpage.html";
 }
 
+async function guestLogin() {
+    try {
+        const response = await fetch('http://127.0.0.1:8000/api/auth/guest-login/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            localStorage.setItem('authToken', data.token);
+            console.log('Guest login successful:', data);
+            showSuccessBanner('Logged in as guest!');
+            forwardToMainPage(); 
+        } else {
+            console.error('Guest login failed');
+            showFailureBanner('Failed to log in as guest');
+        }
+    } catch (error) {
+        console.error('An error occurred:', error);
+        showFailureBanner('An error occurred. Please try again.');
+    }
+}
+
 
 /**
  * Logs the user out of the application.

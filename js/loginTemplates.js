@@ -59,7 +59,7 @@ function loginTemplate() {
       </div>
       <div class="sign-up-btn-container d-flex j-center gap-35">
           <button id="loginBtn" class="login-btn pointer" type="submit">Log in</button>
-          <button class="guest-login-btn pointer" onclick="forwardToMainPage()">Guest Log in</button>
+          <button class="guest-login-btn pointer" onclick="guestLogin()">Guest Log in</button>
       </div>
     </form>
     `;
