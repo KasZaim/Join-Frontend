@@ -51,7 +51,8 @@ function showDetailedAssignedClients(id) {
     let task = tasks[id];
     let clients = task['clients'];
     let clientsSection = document.getElementById(`popupClientSection${id}`);
-    for (let i = 0; i < clients.length; i++) {
+    if (clients) {
+        for (let i = 0; i < clients.length; i++) {
         let clientID = clients[i];
         let id = contacts.findIndex(c => c['id'] == clientID);
         let initials = contacts[id]['initials'];
@@ -65,6 +66,8 @@ function showDetailedAssignedClients(id) {
             </div>
             `;
     }
+    }
+    
 }
 
 

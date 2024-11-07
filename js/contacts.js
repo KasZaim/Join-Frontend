@@ -254,7 +254,6 @@ async function deleteContact(index) {
         await setItemInBackend('contacts', null, selectedContactID, 'DELETE');
 
         contacts.splice(index, 1);
-
         refreshContactPage();
         showSuccessBanner('Contact deleted');
         showContactsFirstLetters();
@@ -329,14 +328,14 @@ async function removeDeletedClientsFromTasks(contactIndex) {
         if (taskClients[contactIndex]) {
             taskClients.splice(contactIndex, 1);
 
-            if (taskClients.length == 0) {
-                let taskIndex = tasks.indexOf(task);  
-                await deleteShownTask(taskIndex);  
-            }
+            // if (taskClients.length == 0) {
+            //     let taskIndex = tasks.indexOf(task);  
+            //     await deleteShownTask(taskIndex);  
+            // }
         }
     }
 
     await setItemTasks(tasks);
-    await loadTasks();  // Aktualisiere die Ansicht
+    await loadTasks();  
 }
 

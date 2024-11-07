@@ -1,14 +1,6 @@
 /**
  * loads tasks from server
  */
-// async function loadTasks() {
-//     try {
-//         tasks = JSON.parse(await getItem('tasks'));
-//     } catch (e) {
-//         console.error('Loading error:', e);
-//     }
-//     updateTasks();
-// }
 async function loadTasks() {
     
     try {

@@ -109,6 +109,9 @@ async function saveEditedTaskInformation(id) {
     }
 }
 
+/**
+ * gets the edited subtask information
+ */
 function captureEditedSubtasks() {
     currentSubtasks = [];  
     let subtaskInputs = document.querySelectorAll('.subtask-input');  

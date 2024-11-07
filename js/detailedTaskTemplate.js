@@ -98,7 +98,12 @@ function getEditTaskHTML(index) {
                 <div id="contactDropdown" class="dropdown pointer" onclick="stopPropagation(event); showSelection('contactsSelection','contactDropdown')">
                     Select contacts to assign
                 </div>
-                <div class="category-selection" id="contactsSelection" onclick="stopPropagation(event)"></div>
+                <div class="category-selection" id="contactsSelection" onclick="stopPropagation(event)">
+                    <label onclick="openCreateContact()" class="label-hover">
+                        <span>Create new contact</span>
+                        <img src="../assets/icons/add_user.png" class="addTask-new-contact-img">
+                    </label>
+                </div>
             </div>
             <div id="addedClientsBox" class="d-flex f-wrap"></div>
             <div id="addSubtasksSection">
