@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: detailedTaskTemplate.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: detailedTaskTemplate.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * HTML for detailed information of clicked task
+ * @param {array} tasks - all saved tasks
+ * @param {number} shownTaskID - ID of clicked task
+ * @param {array} topics - all saved task categories
+ * @returns {string} - HTML markup for the detailed task information
+ */
+function detailedTaskHTML() {
+    
+    return `
+    &lt;div class="popup-task f-column p-relative" onclick="stopPropagation(event)">
+        &lt;img class="back-btn pointer back-btn-none" src="../assets/icons/plus_blue.png" onclick="closePopupWindow()">
+        &lt;img src="../assets/icons/back_arrow.png" class="back-arrow-responsive-popup" onclick="closePopupWindow()">
+        &lt;div class="edit-and-delete-box d-flex">
+            &lt;img class="delete-btn pointer" src="../assets/icons/delete.png" onclick="deleteShownTask(${shownTaskID})">
+            &lt;img class="edit-btn pointer" src="../assets/icons/pencil_white.png" onclick="editDetailedTask(${shownTaskID})">
+        &lt;/div>
+        &lt;span class="task-category popup-category" 
+            style="background-color: ${topics[tasks[shownTaskID]['topic']]['color']}">
+            ${topics[tasks[shownTaskID]['topic']]['name']}&lt;/span>
+        &lt;h2 class="popup-headline">${tasks[shownTaskID]['headline']}&lt;/h2>
+        &lt;span class="popup-span">${tasks[shownTaskID]['description']}&lt;/span>
+        &lt;span class="popup-span">&lt;b>Due date:&lt;/b>${tasks[shownTaskID]['date']}&lt;/span>
+        &lt;div class="popup-span" style="display:flex; align-items:center">
+            &lt;span>&lt;b>Priority:&lt;/b>&lt;/span>
+            &lt;span class="task-category popup-prio" style="background-color: ${currentPrioColor}">${currentPrio}
+                &lt;img src="../assets/icons/prio_${tasks[shownTaskID]['prio']}.png" class="popup-prio-icon img-brightening">
+            &lt;/span>
+        &lt;/div>
+        &lt;span class="popup-span">&lt;b>Assigned to:&lt;/b>&lt;/span>
+        &lt;div id="popupClientSection${shownTaskID}" class="popup-clients-container d-flex">
+        &lt;/div>
+        &lt;span id="popupSubtaskHeadline${shownTaskID}" class="popup-span m-t-5">&lt;b>Subtasks&lt;/b>&lt;/span>
+        &lt;div id="popupSubtaskSection${shownTaskID}" class="popup-subtask-container f-column">
+            
+        &lt;/div>
+        
+    &lt;/div>
+    `;
+}
+function formatDateToYMD(dateStr) {
+    const [day, month, year] = dateStr.split('/');
+    return `${year}-${month}-${day}`;
+}
+
+/**
+ * HTML for edit task information of clicked task
+ */
+function getEditTaskHTML(index) {
+    
+    let task = tasks[index];
+    let popup = document.getElementById('popupWindow');
+
+    popup.innerHTML = `
+    &lt;div class="popup-task f-column p-relative" onclick="stopPropagation(event); closeAllDropdowns()">
+        &lt;form class="edit-task-form w-100" onsubmit="saveEditedTaskInformation(${shownTaskID}); return false">
+            &lt;img class="back-btn pointer back-btn-popup back-btn-none" src="../assets/icons/plus_blue.png" onclick="stopPropagation(event); closePopupWindow(); clearVariables()">
+            &lt;div class="popup-text-boxes">
+                &lt;h4 class="addTask-form-headlines">Title&lt;/h4>
+                &lt;input id="editTaskTitle" placeholder="Enter a title" maxlength="40" value="${task['headline']}" required>
+            &lt;/div>
+            &lt;div class="popup-text-boxes">
+                &lt;h4 class="addTask-form-headlines">Description&lt;/h4>
+                &lt;textarea id="editTaskDesc" placeholder="Enter a description" maxlength="200">${task['description']}&lt;/textarea>
+            &lt;/div>
+            &lt;div class="popup-text-boxes">
+                &lt;h4 class="addTask-form-headlines">Due date&lt;/h4>
+                &lt;div style="position: relative;">
+                    
+                    &lt;input type="date" class="pointer" id="editTaskDate" placeholder="dd/mm/yyyy" value="${task['date']}" required>
+                &lt;/div>
+            &lt;/div>
+            &lt;div class="popup-text-boxes p-relative">
+                &lt;h4 class="addTask-form-headlines">Prio&lt;/h4>
+                &lt;div class="addTask-prio-container d-flex f-row a-i-center">
+                    &lt;div id="urgent" class="prio f-center pointer prio-small" onclick="addPrioColor('urgent')">
+                        &lt;span>Urgent&lt;/span>
+                        &lt;img id="urgentIcon" src="../assets/icons/prio_urgent.png" class="prio-img prio-img-small">
+                    &lt;/div>
+                    &lt;div id="medium" class="prio f-center pointer prio-small" onclick="addPrioColor('medium')">
+                        &lt;span>Medium&lt;/span>
+                        &lt;img id="mediumIcon" src="../assets/icons/prio_medium.png" class="prio-img prio-img-small">
+                    &lt;/div>
+                    &lt;div id="low" class="prio f-center pointer prio-small" onclick="addPrioColor('low')">
+                        &lt;span>Low&lt;/span>
+                        &lt;img id="lowIcon" src="../assets/icons/prio_low.png" class="prio-img prio-img-small">
+                    &lt;/div>
+                &lt;/div>
+                &lt;div id="emptyInputPopupPrio" style="position: absolute;" class="pos-3 d-none">
+                    &lt;div class="exclamation-box f-center">
+                        &lt;img src="../assets/icons/exclamation.png" class="exclamation">
+                    &lt;/div>
+                    &lt;div class="empty-input-popup">Wähle die Priorität.&lt;/div>
+                &lt;/div>
+            &lt;/div>
+            &lt;div id="contactDropdownSection" class="w-100">
+                &lt;h4 class="addTask-form-headlines">Assigned to&lt;/h4>
+                &lt;div id="contactDropdown" class="dropdown pointer" onclick="stopPropagation(event); showSelection('contactsSelection','contactDropdown')">
+                    Select contacts to assign
+                &lt;/div>
+                &lt;div class="category-selection" id="contactsSelection" onclick="stopPropagation(event)">
+                    &lt;label onclick="openCreateContact()" class="label-hover">
+                        &lt;span>Create new contact&lt;/span>
+                        &lt;img src="../assets/icons/add_user.png" class="addTask-new-contact-img">
+                    &lt;/label>
+                &lt;/div>
+            &lt;/div>
+            &lt;div id="addedClientsBox" class="d-flex f-wrap">&lt;/div>
+            &lt;div id="addSubtasksSection">
+                &lt;h4 class="addTask-form-headlines">Subtask&lt;/h4>
+                &lt;div class="p-relative" onclick="createNewSubtask()">
+                    &lt;input type="text" id="subtaskInput" placeholder="Add new subtask">
+                    &lt;img class="subtask-plus-icon pointer" src="../assets/icons/plus_blue.png">&lt;/img>
+                &lt;/div>
+            &lt;/div>
+            &lt;div id="newSubtasksBox" class="new-subtask-box f-column editTask-subtask-box">&lt;/div>
+            &lt;div class="w-100 d-flex j-end">
+                &lt;button class="submit-btn pointer ok-btn" type="submit">Ok ✓&lt;/button>
+            &lt;/div>        
+        &lt;/form>
+    &lt;/div>
+    `;
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CURRENT_USER_KEY">CURRENT_USER_KEY</a></li><li><a href="global.html#STORAGE_TOKEN">STORAGE_TOKEN</a></li><li><a href="global.html#STORAGE_URL">STORAGE_URL</a></li><li><a href="global.html#addBorderToPickedColor">addBorderToPickedColor</a></li><li><a href="global.html#addCategory">addCategory</a></li><li><a href="global.html#addOrRemoveClients">addOrRemoveClients</a></li><li><a href="global.html#addPrioColor">addPrioColor</a></li><li><a href="global.html#addSubtask">addSubtask</a></li><li><a href="global.html#addSubtaskOnEnter">addSubtaskOnEnter</a></li><li><a href="global.html#addTask">addTask</a></li><li><a href="global.html#adjustHeader">adjustHeader</a></li><li><a href="global.html#adjustStyleForResponsiveView">adjustStyleForResponsiveView</a></li><li><a href="global.html#allowDrop">allowDrop</a></li><li><a href="global.html#assignedClientContainerHTML">assignedClientContainerHTML</a></li><li><a href="global.html#captureEditedSubtasks">captureEditedSubtasks</a></li><li><a href="global.html#categoryDropdownHTML">categoryDropdownHTML</a></li><li><a href="global.html#changeContactsData">changeContactsData</a></li><li><a href="global.html#changeDesignBasedOnClientsAmount">changeDesignBasedOnClientsAmount</a></li><li><a href="global.html#changeIconColor">changeIconColor</a></li><li><a href="global.html#changePWSymbol">changePWSymbol</a></li><li><a href="global.html#changePrioProperties">changePrioProperties</a></li><li><a href="global.html#changeSubtaskStatus">changeSubtaskStatus</a></li><li><a href="global.html#checkForEmptyFields">checkForEmptyFields</a></li><li><a href="global.html#checkForExistingID">checkForExistingID</a></li><li><a href="global.html#checkForExistingSubtasks">checkForExistingSubtasks</a></li><li><a href="global.html#checkForSubtasks">checkForSubtasks</a></li><li><a href="global.html#checkPickedColor">checkPickedColor</a></li><li><a href="global.html#checkPriority">checkPriority</a></li><li><a href="global.html#clearAddTaskSide">clearAddTaskSide</a></li><li><a href="global.html#clearDropDownSection">clearDropDownSection</a></li><li><a href="global.html#clearPrioSection">clearPrioSection</a></li><li><a href="global.html#clearSubtaskSection">clearSubtaskSection</a></li><li><a href="global.html#closeAllDropdowns">closeAllDropdowns</a></li><li><a href="global.html#closeContactCard">closeContactCard</a></li><li><a href="global.html#closeDropdown">closeDropdown</a></li><li><a href="global.html#contactHTML">contactHTML</a></li><li><a href="global.html#createAssignedClientContainer">createAssignedClientContainer</a></li><li><a href="global.html#createContactInAddTaskHTML">createContactInAddTaskHTML</a></li><li><a href="global.html#createCurrentUser">createCurrentUser</a></li><li><a href="global.html#createNewCategoryInAddTask">createNewCategoryInAddTask</a></li><li><a href="global.html#createNewContact">createNewContact</a></li><li><a href="global.html#createNewSubtask">createNewSubtask</a></li><li><a href="global.html#createNewUser">createNewUser</a></li><li><a href="global.html#currentUser">currentUser</a></li><li><a href="global.html#currentUserForNewPassword">currentUserForNewPassword</a></li><li><a href="global.html#deleteContact">deleteContact</a></li><li><a href="global.html#deleteShownTask">deleteShownTask</a></li><li><a href="global.html#deleteUser">deleteUser</a></li><li><a href="global.html#detailedTaskHTML">detailedTaskHTML</a></li><li><a href="global.html#detectCurrentClickedPrio">detectCurrentClickedPrio</a></li><li><a href="global.html#disableBtn">disableBtn</a></li><li><a href="global.html#downCategory">downCategory</a></li><li><a href="global.html#editDetailedTask">editDetailedTask</a></li><li><a href="global.html#emptyFieldPopupPositioning">emptyFieldPopupPositioning</a></li><li><a href="global.html#enableBtn">enableBtn</a></li><li><a href="global.html#filterTasks">filterTasks</a></li><li><a href="global.html#forwardToMainPage">forwardToMainPage</a></li><li><a href="global.html#generateAssignedClientHTML">generateAssignedClientHTML</a></li><li><a href="global.html#generateContacts">generateContacts</a></li><li><a href="global.html#generateTask">generateTask</a></li><li><a href="global.html#generateTaskCategories">generateTaskCategories</a></li><li><a href="global.html#getAddTaskHTML">getAddTaskHTML</a></li><li><a href="global.html#getCrossedOutSubtaskHTML">getCrossedOutSubtaskHTML</a></li><li><a href="global.html#getDetailedTaskHTML">getDetailedTaskHTML</a></li><li><a href="global.html#getEditTaskHTML">getEditTaskHTML</a></li><li><a href="global.html#getEditedContactData">getEditedContactData</a></li><li><a href="global.html#getFirstLetters">getFirstLetters</a></li><li><a href="global.html#getInputsFromForm">getInputsFromForm</a></li><li><a href="global.html#getItem">getItem</a></li><li><a href="global.html#getPrioContainerHTML">getPrioContainerHTML</a></li><li><a href="global.html#getSubtaskBoxHTML">getSubtaskBoxHTML</a></li><li><a href="global.html#getSubtaskHTML">getSubtaskHTML</a></li><li><a href="global.html#getTaskInformationFromArray">getTaskInformationFromArray</a></li><li><a href="global.html#getTaskNumbers">getTaskNumbers</a></li><li><a href="global.html#getTopicDropdownHTML">getTopicDropdownHTML</a></li><li><a href="global.html#greetAccordingToTime">greetAccordingToTime</a></li><li><a href="global.html#highlightSelectedContact">highlightSelectedContact</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#loadContacts">loadContacts</a></li><li><a href="global.html#loadCurrentVariablesFromCache">loadCurrentVariablesFromCache</a></li><li><a href="global.html#loadDate">loadDate</a></li><li><a href="global.html#loadTaskCache">loadTaskCache</a></li><li><a href="global.html#loadTasks">loadTasks</a></li><li><a href="global.html#loadTopics">loadTopics</a></li><li><a href="global.html#loadUsers">loadUsers</a></li><li><a href="global.html#logOut">logOut</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#loginTemplate">loginTemplate</a></li><li><a href="global.html#moveClientDivLeft">moveClientDivLeft</a></li><li><a href="global.html#moveTo">moveTo</a></li><li><a href="global.html#newGivenCategoryHTML">newGivenCategoryHTML</a></li><li><a href="global.html#newPassword">newPassword</a></li><li><a href="global.html#newPasswordTemplate">newPasswordTemplate</a></li><li><a href="global.html#openCreateContact">openCreateContact</a></li><li><a href="global.html#openDetailedContactCard">openDetailedContactCard</a></li><li><a href="global.html#openEditContact">openEditContact</a></li><li><a href="global.html#pushAssignedClientsToArray">pushAssignedClientsToArray</a></li><li><a href="global.html#pushAttachedSubtasksToArray">pushAttachedSubtasksToArray</a></li><li><a href="global.html#pushNewContact">pushNewContact</a></li><li><a href="global.html#pushNewSubtask">pushNewSubtask</a></li><li><a href="global.html#pushNewTopic">pushNewTopic</a></li><li><a href="global.html#refreshContactPage">refreshContactPage</a></li><li><a href="global.html#register">register</a></li><li><a href="global.html#removeAllHighlightsFromContacts">removeAllHighlightsFromContacts</a></li><li><a href="global.html#removeClient">removeClient</a></li><li><a href="global.html#removeFillFieldPopup">removeFillFieldPopup</a></li><li><a href="global.html#removeHighlight">removeHighlight</a></li><li><a href="global.html#removeIMGBrightening">removeIMGBrightening</a></li><li><a href="global.html#removeIconColor">removeIconColor</a></li><li><a href="global.html#removePrioHighlight">removePrioHighlight</a></li><li><a href="global.html#renderContacts">renderContacts</a></li><li><a href="global.html#renderLetters">renderLetters</a></li><li><a href="global.html#renderLogin">renderLogin</a></li><li><a href="global.html#renderSubtasks">renderSubtasks</a></li><li><a href="global.html#resetAddCategorySection">resetAddCategorySection</a></li><li><a href="global.html#resetAddTaskID">resetAddTaskID</a></li><li><a href="global.html#resetPassword">resetPassword</a></li><li><a href="global.html#resetPasswordTemplate">resetPasswordTemplate</a></li><li><a href="global.html#resetTaskCache">resetTaskCache</a></li><li><a href="global.html#saveCurrentInput">saveCurrentInput</a></li><li><a href="global.html#saveEditedTaskInformation">saveEditedTaskInformation</a></li><li><a href="global.html#selectedCategoryHTML">selectedCategoryHTML</a></li><li><a href="global.html#setAssignment">setAssignment</a></li><li><a href="global.html#setItem">setItem</a></li><li><a href="global.html#setItemTasks">setItemTasks</a></li><li><a href="global.html#setItemTopics">setItemTopics</a></li><li><a href="global.html#setNewPassword">setNewPassword</a></li><li><a href="global.html#setUsernameToGreet">setUsernameToGreet</a></li><li><a href="global.html#showAddTaskSite">showAddTaskSite</a></li><li><a href="global.html#showAddTaskWindow">showAddTaskWindow</a></li><li><a href="global.html#showAllTasksCount">showAllTasksCount</a></li><li><a href="global.html#showAssignedClients">showAssignedClients</a></li><li><a href="global.html#showClients">showClients</a></li><li><a href="global.html#showContactsFirstLetters">showContactsFirstLetters</a></li><li><a href="global.html#showDetailedAssignedClients">showDetailedAssignedClients</a></li><li><a href="global.html#showDetailedSubtasks">showDetailedSubtasks</a></li><li><a href="global.html#showDetailedTask">showDetailedTask</a></li><li><a href="global.html#showFilteredTasks">showFilteredTasks</a></li><li><a href="global.html#showFilteredTasksByTopics">showFilteredTasksByTopics</a></li><li><a href="global.html#showHighlight">showHighlight</a></li><li><a href="global.html#showLoadedClientsAndSubtasks">showLoadedClientsAndSubtasks</a></li><li><a href="global.html#showLoadedPrioAndCat">showLoadedPrioAndCat</a></li><li><a href="global.html#showLoadedTaskCache">showLoadedTaskCache</a></li><li><a href="global.html#showLoadedText">showLoadedText</a></li><li><a href="global.html#showNewCreatedTopic">showNewCreatedTopic</a></li><li><a href="global.html#showPassword">showPassword</a></li><li><a href="global.html#showSelectedCategory">showSelectedCategory</a></li><li><a href="global.html#showSelection">showSelection</a></li><li><a href="global.html#showTaskNumbers">showTaskNumbers</a></li><li><a href="global.html#showUrgentTasksCount">showUrgentTasksCount</a></li><li><a href="global.html#signUp">signUp</a></li><li><a href="global.html#signUpTemplate">signUpTemplate</a></li><li><a href="global.html#slideInCreateContact">slideInCreateContact</a></li><li><a href="global.html#sortFirstLetters">sortFirstLetters</a></li><li><a href="global.html#startDragging">startDragging</a></li><li><a href="global.html#taskCategoryHTML">taskCategoryHTML</a></li><li><a href="global.html#upCategory">upCategory</a></li><li><a href="global.html#updateContactIDs">updateContactIDs</a></li><li><a href="global.html#updatePassword">updatePassword</a></li><li><a href="global.html#updateTaskInformation">updateTaskInformation</a></li><li><a href="global.html#updateTaskSection">updateTaskSection</a></li><li><a href="global.html#updateTasks">updateTasks</a></li><li><a href="global.html#updateTasksID">updateTasksID</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu Nov 07 2024 12:54:36 GMT+0100 (Mitteleuropäische Normalzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

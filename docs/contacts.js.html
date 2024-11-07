@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: contacts.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: contacts.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * loads contacts from Backend Server
+ */
+async function loadContacts() {
+    
+    try {
+        contacts = [];
+        contacts = await getItemFromBackend('contacts');
+    } catch (e) {
+        console.error('Loading error:', e);
+    }
+}
+
+
+
+/**
+ * shows all first letters by browsing all contacts
+ */
+async function showContactsFirstLetters() {
+    await loadContacts();
+    getFirstLetters();
+    sortFirstLetters();
+    renderLetters();
+    document.getElementById('contactInfo').innerHTML = '';
+}
+
+
+/**
+ * pushes every first character (if not already included) of the firstname from each contact in the letters array
+ */
+function getFirstLetters() {
+    firstLetters = [];
+    for (let i = 0; i &lt; contacts.length; i++) {
+        let name = contacts[i]['firstname'];
+        let firstLetter = name.charAt(0);
+
+        if (!firstLetters.includes(firstLetter)) {
+            firstLetters.push(firstLetter);
+        }
+    }
+}
+
+
+/**
+ * sort all the first letters from all contacts alphabetical
+ */
+function sortFirstLetters() {
+    firstLetters.sort(function (a, b) {
+        let letterA = a.toLowerCase();
+        let letterB = b.toLowerCase();
+        if (letterA &lt; letterB) {
+            return -1;
+        }
+        if (letterA > letterB) {
+            return 1;
+        }
+        return 0;
+    });
+}
+
+
+/**
+ * shows the letters sorted in the contact list
+ */
+function renderLetters() {
+    let contactsList = document.getElementById('contactList');
+    contactsList.innerHTML = '';
+    for (let i = 0; i &lt; firstLetters.length; i++) {
+        let letter = firstLetters[i];
+        contactsList.innerHTML += firstLetterHTML(letter);
+        renderContacts(letter);
+    }
+}
+
+
+/**
+ * shows every single contact sorted to each letter in the contact list
+ * @param {string} id - first char from each contact 
+ */
+async function renderContacts(id) {
+    let contactContainer = document.getElementById(`${id}`);
+    for (let i = 0; i &lt; contacts.length; i++) {
+        let contact = contacts[i];
+        let firstName = contact['firstname'];
+        if (firstName.startsWith(id)) {
+            contactContainer.innerHTML += contactBoxHTML(contact, i);
+        }
+    }
+}
+
+
+/**
+ * opens a detailed info of the selected contact
+ * @param {number} i - the index of the selected contact 
+ */
+function openDetailedContactCard(i) {
+    
+    onContactCard = true;
+    let contactPopup = document.getElementById('contactInfo');
+    contactPopup.innerHTML = openContactTemplate(i);
+    if (mediaQuery.matches) { //Responsive view, removes Buttons
+        adjustStyleForResponsiveView();
+    } else {
+        highlightSelectedContact(i);
+    }
+}
+
+
+/**
+ * removes and adds buttons at a certain resolution
+ */
+function adjustStyleForResponsiveView() {
+    document.getElementById('createContactBtn').classList.add("d-none");
+    document.getElementById('contactCard').classList.add('d-flex');
+    document.getElementById('closeContactCardBtn').classList.add('d-flex');
+    document.getElementById('editContact').classList.add('d-none');
+    document.getElementById('editContactBtnBox').classList.remove('d-none');
+}
+
+
+/**
+ * closes a popup window at a certain resolution
+ */
+function closeContactCard() {
+    if (mediaQuery.matches) {
+        document.getElementById('createContactBtn').classList.remove("d-none");
+        document.getElementById('contactCard').classList.remove('d-flex');
+        document.getElementById('closeContactCardBtn').classList.remove('d-flex');
+        document.getElementById('editContactBtnBox').classList.add('d-none');
+    }
+    onContactCard = false;
+    removeAllHighlightsFromContacts();
+}
+
+
+/**
+ * gives the selected contact a background color
+ * @param {number} id - the ID of the selected contact 
+ */
+function highlightSelectedContact(i) {
+    removeAllHighlightsFromContacts();
+    let currentContact = document.getElementById(`contactBox${i}`);
+    currentContact.classList.add('bg-highlight');
+}
+
+
+/**
+ * removes the dark background from all contact boxes
+ */
+function removeAllHighlightsFromContacts() {
+    let contactBoxes = document.getElementsByClassName('contact-box');
+    for (let i = 0; i &lt; contactBoxes.length; i++) {
+        let element = contactBoxes[i];
+        element.classList.remove('bg-highlight');
+    }
+}
+
+
+/**
+ * opens up the popup to create a new contact
+ */
+function openCreateContact() {
+    if (inAddTaskPopup) {
+        saveCurrentInput();
+        closePopupWindow();
+        taskSavedInCache = true;
+        setTimeout(slideInCreateContact, 350);
+    } else {
+        slideInCreateContact();
+    }
+}
+
+
+/**
+ * slides in the contact template
+ */
+function slideInCreateContact() {
+    currentPopupStyle = 'slide';
+    popupContentID = 'addContactPopup';
+    let template = addContactTemplate();
+    slideInContent(template, popupContentID);
+}
+
+
+/**
+ * creates a new contact on the server, closes the popup
+ */
+async function createNewContact() {
+    let firstname = document.getElementById('createContactFirstname').value;
+    let lastname = document.getElementById('createContactSurname').value;
+    let mail = document.getElementById('createContactMail').value;
+    let phone = document.getElementById('createContactPhone').value;
+    // checkForExistingID();
+    createRandomColor();
+
+    await pushNewContact(firstname, lastname, mail, phone);
+
+    refreshContactPage();
+    showSuccessBanner('Contact created');
+}
+
+
+/**
+ * creates a new contact
+ */
+async function pushNewContact(firstname, lastname, mail, phone) {
+    
+    contact=
+        {
+            'firstname': firstname,
+            'lastname': lastname,
+            'initials': firstname.charAt(0) + lastname.charAt(0),
+            'mail': mail,
+            'phone': phone,
+            'color': randomContactColor
+        }
+    ;
+    let savedContact = await setItemInBackend('contacts', contact);
+    contacts.push(savedContact);
+}
+
+
+/**
+ * checks if the ID already exists to assign a new ID
+ */
+function checkForExistingID() {
+    contactID = contacts.length;
+}
+
+
+/**
+ * opens up the edit contact popup 
+ * @param {number} i - the index of the selected contact
+ */
+function openEditContact(i) {
+    
+    shownContactIndex = i;
+    // shownContactIndex +1;
+    popupContentID = 'editContactPopup';
+    currentPopupStyle = 'slide';
+    let template = editContactTemplate(i);
+    slideInContent(template, popupContentID);
+}
+
+
+/**
+ * deletes the selected contact
+ */
+async function deleteContact(index) {
+    try {
+        let selectedContactID = contacts[index]['id'];
+
+        await removeDeletedClientsFromTasks(index);
+        await setItemInBackend('contacts', null, selectedContactID, 'DELETE');
+
+        contacts.splice(index, 1);
+        refreshContactPage();
+        showSuccessBanner('Contact deleted');
+        showContactsFirstLetters();
+    } catch (error) {
+        console.error('Error deleting contact:', error);
+    }
+}
+
+
+/**
+ * puts the ID´s on the server in the right order after deleting one
+ */
+async function updateContactIDs() {
+    for (let i = 0; i &lt; contacts.length; i++) {
+        contacts[i]['ID'] = i;
+    }
+}
+
+
+/**
+ * updates the selected contact's data 
+ */
+async function changeContactsData(id) {
+    
+    for (let i = 0; i &lt; contacts.length; i++) {
+        let contact = contacts[i];
+        let selectedContactID = contact['id'];
+        if (selectedContactID == id) {
+            getEditedContactData(contact);
+            await setItemInBackend('contacts', contact, selectedContactID, 'PATCH');
+        }
+    }
+    refreshContactPage();
+    showSuccessBanner('Contact edited');
+}
+
+
+
+/**
+ * gets the new added informations from the inputs
+ */
+function getEditedContactData(contact) {
+    contact['firstname'] = document.getElementById('editContactFirstname').value;
+    contact['lastname'] = document.getElementById('editContactSurname').value;
+    contact['mail'] = document.getElementById('editContactMail').value;
+    contact['phone'] = document.getElementById('editContactPhone').value;
+    contact['initials'] = document.getElementById('editContactFirstname').value.charAt(0) + document.getElementById('editContactSurname').value.charAt(0);
+}
+
+
+/**
+ * closes the contact informations card and popup window, refreshs the contact list
+ */
+function refreshContactPage() {
+    if (mediaQuery.matches) {
+        closeContactCard();
+    }
+
+    closePopupWindow();
+    showContactsFirstLetters();
+
+    if (addTaskSideCreateContact) {
+        addTaskSideCreateContact = false;
+    }
+}
+
+async function removeDeletedClientsFromTasks(contactIndex) {
+    for (let i = 0; i &lt; tasks.length; i++) {
+        const task = tasks[i];
+        let taskClients = task['clients'];
+        
+        if (taskClients[contactIndex]) {
+            taskClients.splice(contactIndex, 1);
+
+            // if (taskClients.length == 0) {
+            //     let taskIndex = tasks.indexOf(task);  
+            //     await deleteShownTask(taskIndex);  
+            // }
+        }
+    }
+
+    await setItemTasks(tasks);
+    await loadTasks();  
+}
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CURRENT_USER_KEY">CURRENT_USER_KEY</a></li><li><a href="global.html#STORAGE_TOKEN">STORAGE_TOKEN</a></li><li><a href="global.html#STORAGE_URL">STORAGE_URL</a></li><li><a href="global.html#addBorderToPickedColor">addBorderToPickedColor</a></li><li><a href="global.html#addCategory">addCategory</a></li><li><a href="global.html#addOrRemoveClients">addOrRemoveClients</a></li><li><a href="global.html#addPrioColor">addPrioColor</a></li><li><a href="global.html#addSubtask">addSubtask</a></li><li><a href="global.html#addSubtaskOnEnter">addSubtaskOnEnter</a></li><li><a href="global.html#addTask">addTask</a></li><li><a href="global.html#adjustHeader">adjustHeader</a></li><li><a href="global.html#adjustStyleForResponsiveView">adjustStyleForResponsiveView</a></li><li><a href="global.html#allowDrop">allowDrop</a></li><li><a href="global.html#assignedClientContainerHTML">assignedClientContainerHTML</a></li><li><a href="global.html#captureEditedSubtasks">captureEditedSubtasks</a></li><li><a href="global.html#categoryDropdownHTML">categoryDropdownHTML</a></li><li><a href="global.html#changeContactsData">changeContactsData</a></li><li><a href="global.html#changeDesignBasedOnClientsAmount">changeDesignBasedOnClientsAmount</a></li><li><a href="global.html#changeIconColor">changeIconColor</a></li><li><a href="global.html#changePWSymbol">changePWSymbol</a></li><li><a href="global.html#changePrioProperties">changePrioProperties</a></li><li><a href="global.html#changeSubtaskStatus">changeSubtaskStatus</a></li><li><a href="global.html#checkForEmptyFields">checkForEmptyFields</a></li><li><a href="global.html#checkForExistingID">checkForExistingID</a></li><li><a href="global.html#checkForExistingSubtasks">checkForExistingSubtasks</a></li><li><a href="global.html#checkForSubtasks">checkForSubtasks</a></li><li><a href="global.html#checkPickedColor">checkPickedColor</a></li><li><a href="global.html#checkPriority">checkPriority</a></li><li><a href="global.html#clearAddTaskSide">clearAddTaskSide</a></li><li><a href="global.html#clearDropDownSection">clearDropDownSection</a></li><li><a href="global.html#clearPrioSection">clearPrioSection</a></li><li><a href="global.html#clearSubtaskSection">clearSubtaskSection</a></li><li><a href="global.html#closeAllDropdowns">closeAllDropdowns</a></li><li><a href="global.html#closeContactCard">closeContactCard</a></li><li><a href="global.html#closeDropdown">closeDropdown</a></li><li><a href="global.html#contactHTML">contactHTML</a></li><li><a href="global.html#createAssignedClientContainer">createAssignedClientContainer</a></li><li><a href="global.html#createContactInAddTaskHTML">createContactInAddTaskHTML</a></li><li><a href="global.html#createCurrentUser">createCurrentUser</a></li><li><a href="global.html#createNewCategoryInAddTask">createNewCategoryInAddTask</a></li><li><a href="global.html#createNewContact">createNewContact</a></li><li><a href="global.html#createNewSubtask">createNewSubtask</a></li><li><a href="global.html#createNewUser">createNewUser</a></li><li><a href="global.html#currentUser">currentUser</a></li><li><a href="global.html#currentUserForNewPassword">currentUserForNewPassword</a></li><li><a href="global.html#deleteContact">deleteContact</a></li><li><a href="global.html#deleteShownTask">deleteShownTask</a></li><li><a href="global.html#deleteUser">deleteUser</a></li><li><a href="global.html#detailedTaskHTML">detailedTaskHTML</a></li><li><a href="global.html#detectCurrentClickedPrio">detectCurrentClickedPrio</a></li><li><a href="global.html#disableBtn">disableBtn</a></li><li><a href="global.html#downCategory">downCategory</a></li><li><a href="global.html#editDetailedTask">editDetailedTask</a></li><li><a href="global.html#emptyFieldPopupPositioning">emptyFieldPopupPositioning</a></li><li><a href="global.html#enableBtn">enableBtn</a></li><li><a href="global.html#filterTasks">filterTasks</a></li><li><a href="global.html#forwardToMainPage">forwardToMainPage</a></li><li><a href="global.html#generateAssignedClientHTML">generateAssignedClientHTML</a></li><li><a href="global.html#generateContacts">generateContacts</a></li><li><a href="global.html#generateTask">generateTask</a></li><li><a href="global.html#generateTaskCategories">generateTaskCategories</a></li><li><a href="global.html#getAddTaskHTML">getAddTaskHTML</a></li><li><a href="global.html#getCrossedOutSubtaskHTML">getCrossedOutSubtaskHTML</a></li><li><a href="global.html#getDetailedTaskHTML">getDetailedTaskHTML</a></li><li><a href="global.html#getEditTaskHTML">getEditTaskHTML</a></li><li><a href="global.html#getEditedContactData">getEditedContactData</a></li><li><a href="global.html#getFirstLetters">getFirstLetters</a></li><li><a href="global.html#getInputsFromForm">getInputsFromForm</a></li><li><a href="global.html#getItem">getItem</a></li><li><a href="global.html#getPrioContainerHTML">getPrioContainerHTML</a></li><li><a href="global.html#getSubtaskBoxHTML">getSubtaskBoxHTML</a></li><li><a href="global.html#getSubtaskHTML">getSubtaskHTML</a></li><li><a href="global.html#getTaskInformationFromArray">getTaskInformationFromArray</a></li><li><a href="global.html#getTaskNumbers">getTaskNumbers</a></li><li><a href="global.html#getTopicDropdownHTML">getTopicDropdownHTML</a></li><li><a href="global.html#greetAccordingToTime">greetAccordingToTime</a></li><li><a href="global.html#highlightSelectedContact">highlightSelectedContact</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#loadContacts">loadContacts</a></li><li><a href="global.html#loadCurrentVariablesFromCache">loadCurrentVariablesFromCache</a></li><li><a href="global.html#loadDate">loadDate</a></li><li><a href="global.html#loadTaskCache">loadTaskCache</a></li><li><a href="global.html#loadTasks">loadTasks</a></li><li><a href="global.html#loadTopics">loadTopics</a></li><li><a href="global.html#loadUsers">loadUsers</a></li><li><a href="global.html#logOut">logOut</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#loginTemplate">loginTemplate</a></li><li><a href="global.html#moveClientDivLeft">moveClientDivLeft</a></li><li><a href="global.html#moveTo">moveTo</a></li><li><a href="global.html#newGivenCategoryHTML">newGivenCategoryHTML</a></li><li><a href="global.html#newPassword">newPassword</a></li><li><a href="global.html#newPasswordTemplate">newPasswordTemplate</a></li><li><a href="global.html#openCreateContact">openCreateContact</a></li><li><a href="global.html#openDetailedContactCard">openDetailedContactCard</a></li><li><a href="global.html#openEditContact">openEditContact</a></li><li><a href="global.html#pushAssignedClientsToArray">pushAssignedClientsToArray</a></li><li><a href="global.html#pushAttachedSubtasksToArray">pushAttachedSubtasksToArray</a></li><li><a href="global.html#pushNewContact">pushNewContact</a></li><li><a href="global.html#pushNewSubtask">pushNewSubtask</a></li><li><a href="global.html#pushNewTopic">pushNewTopic</a></li><li><a href="global.html#refreshContactPage">refreshContactPage</a></li><li><a href="global.html#register">register</a></li><li><a href="global.html#removeAllHighlightsFromContacts">removeAllHighlightsFromContacts</a></li><li><a href="global.html#removeClient">removeClient</a></li><li><a href="global.html#removeFillFieldPopup">removeFillFieldPopup</a></li><li><a href="global.html#removeHighlight">removeHighlight</a></li><li><a href="global.html#removeIMGBrightening">removeIMGBrightening</a></li><li><a href="global.html#removeIconColor">removeIconColor</a></li><li><a href="global.html#removePrioHighlight">removePrioHighlight</a></li><li><a href="global.html#renderContacts">renderContacts</a></li><li><a href="global.html#renderLetters">renderLetters</a></li><li><a href="global.html#renderLogin">renderLogin</a></li><li><a href="global.html#renderSubtasks">renderSubtasks</a></li><li><a href="global.html#resetAddCategorySection">resetAddCategorySection</a></li><li><a href="global.html#resetAddTaskID">resetAddTaskID</a></li><li><a href="global.html#resetPassword">resetPassword</a></li><li><a href="global.html#resetPasswordTemplate">resetPasswordTemplate</a></li><li><a href="global.html#resetTaskCache">resetTaskCache</a></li><li><a href="global.html#saveCurrentInput">saveCurrentInput</a></li><li><a href="global.html#saveEditedTaskInformation">saveEditedTaskInformation</a></li><li><a href="global.html#selectedCategoryHTML">selectedCategoryHTML</a></li><li><a href="global.html#setAssignment">setAssignment</a></li><li><a href="global.html#setItem">setItem</a></li><li><a href="global.html#setItemTasks">setItemTasks</a></li><li><a href="global.html#setItemTopics">setItemTopics</a></li><li><a href="global.html#setNewPassword">setNewPassword</a></li><li><a href="global.html#setUsernameToGreet">setUsernameToGreet</a></li><li><a href="global.html#showAddTaskSite">showAddTaskSite</a></li><li><a href="global.html#showAddTaskWindow">showAddTaskWindow</a></li><li><a href="global.html#showAllTasksCount">showAllTasksCount</a></li><li><a href="global.html#showAssignedClients">showAssignedClients</a></li><li><a href="global.html#showClients">showClients</a></li><li><a href="global.html#showContactsFirstLetters">showContactsFirstLetters</a></li><li><a href="global.html#showDetailedAssignedClients">showDetailedAssignedClients</a></li><li><a href="global.html#showDetailedSubtasks">showDetailedSubtasks</a></li><li><a href="global.html#showDetailedTask">showDetailedTask</a></li><li><a href="global.html#showFilteredTasks">showFilteredTasks</a></li><li><a href="global.html#showFilteredTasksByTopics">showFilteredTasksByTopics</a></li><li><a href="global.html#showHighlight">showHighlight</a></li><li><a href="global.html#showLoadedClientsAndSubtasks">showLoadedClientsAndSubtasks</a></li><li><a href="global.html#showLoadedPrioAndCat">showLoadedPrioAndCat</a></li><li><a href="global.html#showLoadedTaskCache">showLoadedTaskCache</a></li><li><a href="global.html#showLoadedText">showLoadedText</a></li><li><a href="global.html#showNewCreatedTopic">showNewCreatedTopic</a></li><li><a href="global.html#showPassword">showPassword</a></li><li><a href="global.html#showSelectedCategory">showSelectedCategory</a></li><li><a href="global.html#showSelection">showSelection</a></li><li><a href="global.html#showTaskNumbers">showTaskNumbers</a></li><li><a href="global.html#showUrgentTasksCount">showUrgentTasksCount</a></li><li><a href="global.html#signUp">signUp</a></li><li><a href="global.html#signUpTemplate">signUpTemplate</a></li><li><a href="global.html#slideInCreateContact">slideInCreateContact</a></li><li><a href="global.html#sortFirstLetters">sortFirstLetters</a></li><li><a href="global.html#startDragging">startDragging</a></li><li><a href="global.html#taskCategoryHTML">taskCategoryHTML</a></li><li><a href="global.html#upCategory">upCategory</a></li><li><a href="global.html#updateContactIDs">updateContactIDs</a></li><li><a href="global.html#updatePassword">updatePassword</a></li><li><a href="global.html#updateTaskInformation">updateTaskInformation</a></li><li><a href="global.html#updateTaskSection">updateTaskSection</a></li><li><a href="global.html#updateTasks">updateTasks</a></li><li><a href="global.html#updateTasksID">updateTasksID</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu Nov 07 2024 12:54:36 GMT+0100 (Mitteleuropäische Normalzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: taskTemplates.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: taskTemplates.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * HTML for the small task container
+ */
+function generateTask(task, taskSection, topicName, topicColor, progress, subtasksAmount) {
+    taskSection.innerHTML +=/*html*/`
+    &lt;div class="task-parent">
+        &lt;div class="task-box f-column pointer" draggable="true" ondragstart="startDragging(${task['id']})" onclick="showDetailedTask(${task['id']})">
+            &lt;span class="task-category" style="background-color: ${topicColor}">${topicName}&lt;/span>
+            &lt;span class="task-headline">${task['headline']}&lt;/span>
+            &lt;span class="task-description">${task['description']}&lt;/span>
+            &lt;div id="progressContainer${task['id']}" class="progress-container d-flex a-i-center">
+                &lt;div class="progress-box">
+                    &lt;div class="progress-bar" style="width:${progress / subtasksAmount * 100}%">&lt;/div>
+                  &lt;/div>
+                &lt;span>${progress}/${subtasksAmount} Done&lt;/span>
+            &lt;/div>
+            &lt;div class="task-assignment-section d-flex a-i-center">
+                &lt;div id="taskClientSection${task['id']}" class="d-flex f-row">
+                &lt;/div>
+                &lt;img src="../assets/icons/prio_${task['prio']}.png" class="task-prio-icon">
+            &lt;/div>
+        &lt;/div>
+        &lt;div class="switch-category">
+            &lt;img src="/assets/icons/up.png" onclick="upCategory(${task['id']})">
+            &lt;img src="/assets/icons/down.png" onclick="downCategory(${task['id']})">
+        &lt;/div>
+    &lt;/div>
+        
+    `;
+}
+
+
+
+/**
+ * HTML for the addTask site and popup
+ */
+function getAddTaskHTML() {
+    return `
+    &lt;div id="popupContainer" class="popup-container p-relative" onclick="stopPropagation(event); closeLogoutPopup()">
+        &lt;img id="popupContainerBackButton" class="back-btn-addTask-popup pointer" src="../assets/icons/plus_blue.png" onclick="closePopupWindow()">
+        &lt;div class="spanMainpage d-none">Kanban Project Management Tool&lt;/div>
+        &lt;h2>Add Task&lt;/h2>
+        &lt;form class="addTask-form d-flex" onsubmit="getInputsFromForm(); return false" onclick="closeAllDropdowns()">
+            &lt;div class="addTask-form-left-container">
+                &lt;div>
+                    &lt;h4 class="addTask-form-headlines">Title&lt;/h4>
+                    &lt;input type="text" id="addTask-title-input" placeholder="Enter a title" maxlength="40" required>
+                &lt;/div>
+                &lt;div>
+                    &lt;h4 class="addTask-form-headlines">Description&lt;/h4>
+                    &lt;textarea id="addTask-desc-input" placeholder="Enter a description" maxlength="250" required>&lt;/textarea>
+                &lt;/div>
+                &lt;div id="categoryDropdownSection" class="category-select" onclick="stopPropagation(event)">
+                    &lt;h4 class="addTask-form-headlines">Category&lt;/h4>
+                    &lt;div id="categoryDropdown" class="dropdown pointer" onclick="showSelection('categorySelection','categoryDropdown')">
+                        Select task category
+                    &lt;/div>
+                    &lt;div class="category-selection" id="categorySelection">
+                        &lt;label class="addTask-category-label label-hover" onclick="createNewCategoryInAddTask()">
+                            &lt;span>Create new category&lt;/span>
+                        &lt;/label>
+                    &lt;/div>
+                &lt;/div>
+                &lt;div id="contactDropdownSection" onclick="stopPropagation(event)">
+                    &lt;h4 class="addTask-form-headlines">Assigned to&lt;/h4>
+                    &lt;div id="contactDropdown" class="dropdown pointer" onclick="showSelection('contactsSelection','contactDropdown')">
+                        Select contacts to assign
+                    &lt;/div>
+                    &lt;div class="category-selection" id="contactsSelection">
+                        &lt;label onclick="openCreateContact()" class="label-hover">
+                            &lt;span>Create new contact&lt;/span>
+                            &lt;img src="../assets/icons/add_user.png" class="addTask-new-contact-img">
+                        &lt;/label>
+                    &lt;/div>
+                    &lt;div id="addedClientsBox" class="added-clients-box d-flex">&lt;/div>
+                &lt;/div>
+            &lt;/div>
+            &lt;div class="addTask-form-right-container">
+                &lt;div>
+                    &lt;h4 class="addTask-form-headlines">Due date&lt;/h4>
+                    &lt;div style="position: relative;">
+                        &lt;input type="date" class="pointer" id="addTaskDate" placeholder="dd/mm/yyyy" max="2030-01-01" / required>
+                    &lt;/div>
+                &lt;/div>
+                &lt;div>
+                    &lt;h4 class="addTask-form-headlines">Prio&lt;/h4>
+                    &lt;div id="prioContainer" class="addTask-prio-container d-flex f-row a-i-center" required>
+                        &lt;div id="urgent" class="prio f-center pointer" onclick="addPrioColor('urgent')">
+                            &lt;span>Urgent&lt;/span>
+                            &lt;img id="urgentIcon" src="../assets/icons/prio_urgent.png" class="prio-img">
+                        &lt;/div>
+                        &lt;div id="medium" class="prio f-center pointer" onclick="addPrioColor('medium')">
+                            &lt;span>Medium&lt;/span>
+                            &lt;img id="mediumIcon" src="../assets/icons/prio_medium.png" class="prio-img extra">
+                        &lt;/div>
+                        &lt;div id="low" class="prio f-center pointer" onclick="addPrioColor('low')">
+                            &lt;span>Low&lt;/span>
+                            &lt;img id="lowIcon" src="../assets/icons/prio_low.png" class="prio-img">
+                        &lt;/div>
+                    &lt;/div>
+                &lt;/div>
+                &lt;div id="addSubtasksSection">
+                    &lt;h4 class="addTask-form-headlines">Subtask&lt;/h4>
+                    &lt;div id="emptyInputPopupPrio" style="position: absolute;" class="pos-1 d-none">
+                        &lt;div class="exclamation-box f-center">
+                            &lt;img src="../assets/icons/exclamation.png" class="exclamation">
+                         &lt;/div>
+                        &lt;div class="empty-input-popup">Wähle die Priorität.&lt;/div>
+                    &lt;/div>
+                    &lt;div style="position: relative;" onclick="createNewSubtask()">
+                        &lt;input type="text" id="subtaskInput" placeholder="Add new subtask">
+                        &lt;img class="subtask-plus-icon pointer" src="../assets/icons/plus_blue.png"> &lt;/img>
+                    &lt;/div>
+                &lt;/div>
+                &lt;div id="newSubtasksBox" class="new-subtask-box f-column">&lt;/div>
+            &lt;/div>
+            &lt;div class="addTask-commit-buttons d-flex j-end" id="commitButtonsBox">
+                &lt;button class="addTask-clear-btn" type="reset" onclick="clearAddTaskSide()">Clear x&lt;/button>
+                &lt;button class="submit-btn pointer"  type="submit">Create Task ✓&lt;/button>
+            &lt;/div>
+            &lt;div id="emptyInputPopupCat" style="position: absolute;" class="pos-2 d-none">
+                &lt;div class="exclamation-box f-center">
+                    &lt;img src="../assets/icons/exclamation.png" class="exclamation">
+                &lt;/div>
+                &lt;div class="empty-input-popup">Wähle eine Kategorie.&lt;/div>
+            &lt;/div>
+        &lt;/form>
+    &lt;/div>
+    `;
+}
+
+
+/**
+ * HTML for the category dropdown options menu
+ */
+function getTopicDropdownHTML() {
+    return `
+    &lt;h4 class="addTask-form-headlines">Category&lt;/h4>
+    &lt;div id="categoryDropdown" class="dropdown pointer" onclick="showSelection('categorySelection','categoryDropdown')">
+        Select task category
+    &lt;/div>
+    &lt;div class="category-selection" id="categorySelection">
+        &lt;label class="addTask-category-label label-hover" onclick="createNewCategoryInAddTask()">
+            &lt;span>Create new category&lt;/span>
+        &lt;/label>
+    &lt;/div>
+    `;
+}
+
+
+/**
+ * HTML for the chosen category
+ * @param {*} cat - the chosen category
+ * @param {*} color - the color of the category
+ */
+function selectedCategoryHTML(cat, color) {
+    return `
+    &lt;div style="display:flex; align-items:center;">
+        &lt;span>${cat}&lt;/span>
+        &lt;div class="addTask-category-dot" style="background-color:${color};">&lt;/div>
+    &lt;/div>
+    `;
+}
+
+
+/**
+ * changes the category input field to add a new category, shows a color selection to assign a color
+ */
+function createNewCategoryInAddTask() {
+    currentCat = '';
+    let dropdown = document.getElementById('categoryDropdownSection');
+    dropdown.innerHTML = `
+        &lt;h4 class="addTask-form-headlines">Category&lt;/h4>
+        &lt;div class="dropdown pointer grey-text d-flex a-i-center">
+            &lt;input id="new-cat-input" class="new-cat-input" minvalue="3" maxlength="16" placeholder="New Category Name" required>
+            &lt;div class="create-cat-icon-box d-flex a-i-center pointer">
+                &lt;img src="../assets/icons/plus_blue.png" class="create-category-icon resize-icon" onclick="resetAddCategorySection()">
+                &lt;div class="gap-line">&lt;/div>
+                &lt;img src="../assets/icons/checkmark.png" class="create-category-icon" onclick="addCategory()">
+            &lt;/div>
+        &lt;/div>
+        &lt;div class="new-cat-color-select-box d-flex">
+            &lt;div id="pickColor1" class="addTask-category-dot dot-hover pointer" style="background-color:red;" 
+            onclick="addBorderToPickedColor('pickColor1'); currentPickedColor = 'red'">&lt;/div>
+            &lt;div id="pickColor2" class="addTask-category-dot dot-hover pointer" style="background-color:orange;" 
+            onclick="addBorderToPickedColor('pickColor2'); currentPickedColor = 'orange'">&lt;/div>
+            &lt;div id="pickColor3" class="addTask-category-dot dot-hover pointer" style="background-color:lightgreen;" 
+            onclick="addBorderToPickedColor('pickColor3'); currentPickedColor = 'lightgreen'">&lt;/div>
+            &lt;div id="pickColor4" class="addTask-category-dot dot-hover pointer" style="background-color:lightblue;" 
+            onclick="addBorderToPickedColor('pickColor4'); currentPickedColor = 'lightblue'">&lt;/div>
+            &lt;div id="pickColor5" class="addTask-category-dot dot-hover pointer" style="background-color:yellow;" 
+            onclick="addBorderToPickedColor('pickColor5'); currentPickedColor = 'yellow'">&lt;/div>
+            &lt;div id="pickColor6" class="addTask-category-dot dot-hover pointer" style="background-color:aqua;" 
+            onclick="addBorderToPickedColor('pickColor6'); currentPickedColor = 'aqua'">&lt;/div>
+            &lt;div id="pickColor7" class="addTask-category-dot dot-hover pointer" style="background-color:grey;" 
+            onclick="addBorderToPickedColor('pickColor7'); currentPickedColor = 'grey'">&lt;/div>
+        &lt;/div>
+    `;
+}
+
+
+/**
+ * HTML for new category
+ */
+function newGivenCategoryHTML(newCat) {
+    return `
+    &lt;div style="display:flex; align-items:center;">
+        &lt;span>${newCat.value}&lt;/span>
+        &lt;div class="addTask-category-dot" style="background-color:${currentPickedColor};">&lt;/div>
+    &lt;/div>
+    `;
+}
+
+
+/**
+ * HTML to reset the category input
+ */
+function categoryDropdownHTML() {
+    return `
+    &lt;h4 class="addTask-form-headlines">Category&lt;/h4>
+    &lt;div id="categoryDropdown" class="dropdown pointer" onclick="showSelection('categorySelection','categoryDropdown')">
+        Select task category
+    &lt;/div>
+    &lt;div class="category-selection" id="categorySelection">
+        &lt;label class="addTask-category-label label-hover" onclick="createNewCategoryInAddTask()">
+            &lt;span>Create new category&lt;/span>
+        &lt;/label>
+    &lt;/div>
+    `;
+}
+
+
+/**
+ * HTML for the prio buttons
+ */
+function getPrioContainerHTML() {
+    return `
+    &lt;div id="urgent" class="prio f-center pointer" onclick="addPrioColor('urgent')">
+        &lt;span>Urgent&lt;/span>
+        &lt;img id="urgentIcon" src="../assets/icons/prio_urgent.png" class="prio-img">
+    &lt;/div>
+    &lt;div id="medium" class="prio f-center pointer" onclick="addPrioColor('medium')">
+        &lt;span>Medium&lt;/span>
+        &lt;img id="mediumIcon" src="../assets/icons/prio_medium.png" class="prio-img extra">
+    &lt;/div>
+    &lt;div id="low" class="prio f-center pointer" onclick="addPrioColor('low')">
+        &lt;span>Low&lt;/span>
+        &lt;img id="lowIcon" src="../assets/icons/prio_low.png" class="prio-img">
+    &lt;/div>
+    `;
+}
+
+
+/**
+ * HTML for subtasks
+ */
+function getSubtaskBoxHTML(i, text, checkmark) {
+    return `
+    &lt;div class="addTask-subtask-container d-flex a-i-center j-start">
+         &lt;input type="text" class="subtask-input" id="subtaskInput${i}" value="${text}" />
+    &lt;/div>
+    `;
+}
+
+
+/**
+ * changes the input field container to add a new subtask
+ */
+function createNewSubtask() {
+    let container = document.getElementById('addSubtasksSection');
+    container.innerHTML = `
+        &lt;h4 class="addTask-form-headlines">Assigned to&lt;/h4>
+        &lt;div class="dropdown pointer grey-text d-flex a-i-center padding-r-15">
+            &lt;input type="text" id="subtaskInput" maxlength="32" class="new-cat-input" onkeydown="addSubtaskOnEnter()">
+            &lt;div class="create-cat-icon-box d-flex a-i-center pointer">
+                &lt;img src="../assets/icons/plus_blue.png" class="create-category-icon resize-icon" onclick="clearSubtaskSection()">
+                &lt;div class="gap-line">&lt;/div>
+                &lt;img src="../assets/icons/checkmark.png" class="create-category-icon" onclick="addSubtask()">
+            &lt;/div>
+        &lt;/div>
+    `;
+    getFocusOnInputField('subtaskInput');
+}
+
+
+/**
+ * resets subtask input HTML and shows current subtasks
+ */
+function clearSubtaskSection() {
+    let container = document.getElementById('addSubtasksSection');
+    container.innerHTML = `
+        &lt;h4 class="addTask-form-headlines">Assigned to&lt;/h4>
+        &lt;div style="position: relative;" onclick="createNewSubtask()">
+            &lt;input type="text" id="subtaskInput" placeholder="Add new subtask">
+            &lt;img class="subtask-plus-icon pointer" src="../assets/icons/plus_blue.png">&lt;/img>
+        &lt;/div>
+        `;
+    renderSubtasks();
+}
+
+
+/**
+ * the HTML for creating a new contact in the add task contact selection dropdown menu
+ */
+function createContactInAddTaskHTML() {
+    return `
+    &lt;label onclick="openCreateContact()" class="label-hover">
+        &lt;span>Create new contact&lt;/span>
+        &lt;img src="../assets/icons/add_user.png" class="addTask-new-contact-img">
+    &lt;/label>
+    `;
+}
+
+
+/**
+ * the HTML for a contact in the add task contact selection dropdown menu
+ * @param {*string} contact 
+ */
+function contactHTML(contact) {
+    return `
+    &lt;label class="label-hover">
+        &lt;span>${contact['firstname']} ${contact['lastname']}&lt;/span>
+        &lt;input id="contactCheckbox${contact['id']}" type="checkbox" class="checkbox" onclick="addOrRemoveClients(${contact['id']})">
+    &lt;/label>
+    `;
+}
+
+
+/**
+ * the HTML for the categories in the add task category selection dropdown
+ * @param {*number} i - ID of the category
+ * @param {*string} cat - the name of the category
+ * @param {*string} color - the color of the category
+ */
+function taskCategoryHTML(i, cat, color) {
+    return `
+    &lt;label class="addTask-category-label label-hover" onclick="showSelectedCategory(${i})">
+        &lt;span>${cat}&lt;/span>
+        &lt;div class="addTask-category-dot" style="background-color:${color};">&lt;/div>
+    &lt;/label>
+    `;
+}
+
+
+/**
+ * the HTML for the assigned clients showcase box of the tasks
+ * @param {*string} element - the client
+ * @param {*number} i - the ID of the client
+ */
+function assignedClientContainerHTML(element, i) {
+    return `
+    &lt;div class="d-flex" onclick="stopPropagation(event)">
+        &lt;div id="addedClient${i}" class="task-client f-center task-client-big added-client-style pointer" style="background-color:${element['color']};" 
+        onclick="removeClient(${i})">${element['initials']}&lt;/div>
+    &lt;div>
+    `;
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CURRENT_USER_KEY">CURRENT_USER_KEY</a></li><li><a href="global.html#STORAGE_TOKEN">STORAGE_TOKEN</a></li><li><a href="global.html#STORAGE_URL">STORAGE_URL</a></li><li><a href="global.html#addBorderToPickedColor">addBorderToPickedColor</a></li><li><a href="global.html#addCategory">addCategory</a></li><li><a href="global.html#addOrRemoveClients">addOrRemoveClients</a></li><li><a href="global.html#addPrioColor">addPrioColor</a></li><li><a href="global.html#addSubtask">addSubtask</a></li><li><a href="global.html#addSubtaskOnEnter">addSubtaskOnEnter</a></li><li><a href="global.html#addTask">addTask</a></li><li><a href="global.html#adjustHeader">adjustHeader</a></li><li><a href="global.html#adjustStyleForResponsiveView">adjustStyleForResponsiveView</a></li><li><a href="global.html#allowDrop">allowDrop</a></li><li><a href="global.html#assignedClientContainerHTML">assignedClientContainerHTML</a></li><li><a href="global.html#captureEditedSubtasks">captureEditedSubtasks</a></li><li><a href="global.html#categoryDropdownHTML">categoryDropdownHTML</a></li><li><a href="global.html#changeContactsData">changeContactsData</a></li><li><a href="global.html#changeDesignBasedOnClientsAmount">changeDesignBasedOnClientsAmount</a></li><li><a href="global.html#changeIconColor">changeIconColor</a></li><li><a href="global.html#changePWSymbol">changePWSymbol</a></li><li><a href="global.html#changePrioProperties">changePrioProperties</a></li><li><a href="global.html#changeSubtaskStatus">changeSubtaskStatus</a></li><li><a href="global.html#checkForEmptyFields">checkForEmptyFields</a></li><li><a href="global.html#checkForExistingID">checkForExistingID</a></li><li><a href="global.html#checkForExistingSubtasks">checkForExistingSubtasks</a></li><li><a href="global.html#checkForSubtasks">checkForSubtasks</a></li><li><a href="global.html#checkPickedColor">checkPickedColor</a></li><li><a href="global.html#checkPriority">checkPriority</a></li><li><a href="global.html#clearAddTaskSide">clearAddTaskSide</a></li><li><a href="global.html#clearDropDownSection">clearDropDownSection</a></li><li><a href="global.html#clearPrioSection">clearPrioSection</a></li><li><a href="global.html#clearSubtaskSection">clearSubtaskSection</a></li><li><a href="global.html#closeAllDropdowns">closeAllDropdowns</a></li><li><a href="global.html#closeContactCard">closeContactCard</a></li><li><a href="global.html#closeDropdown">closeDropdown</a></li><li><a href="global.html#contactHTML">contactHTML</a></li><li><a href="global.html#createAssignedClientContainer">createAssignedClientContainer</a></li><li><a href="global.html#createContactInAddTaskHTML">createContactInAddTaskHTML</a></li><li><a href="global.html#createCurrentUser">createCurrentUser</a></li><li><a href="global.html#createNewCategoryInAddTask">createNewCategoryInAddTask</a></li><li><a href="global.html#createNewContact">createNewContact</a></li><li><a href="global.html#createNewSubtask">createNewSubtask</a></li><li><a href="global.html#createNewUser">createNewUser</a></li><li><a href="global.html#currentUser">currentUser</a></li><li><a href="global.html#currentUserForNewPassword">currentUserForNewPassword</a></li><li><a href="global.html#deleteContact">deleteContact</a></li><li><a href="global.html#deleteShownTask">deleteShownTask</a></li><li><a href="global.html#deleteUser">deleteUser</a></li><li><a href="global.html#detailedTaskHTML">detailedTaskHTML</a></li><li><a href="global.html#detectCurrentClickedPrio">detectCurrentClickedPrio</a></li><li><a href="global.html#disableBtn">disableBtn</a></li><li><a href="global.html#downCategory">downCategory</a></li><li><a href="global.html#editDetailedTask">editDetailedTask</a></li><li><a href="global.html#emptyFieldPopupPositioning">emptyFieldPopupPositioning</a></li><li><a href="global.html#enableBtn">enableBtn</a></li><li><a href="global.html#filterTasks">filterTasks</a></li><li><a href="global.html#forwardToMainPage">forwardToMainPage</a></li><li><a href="global.html#generateAssignedClientHTML">generateAssignedClientHTML</a></li><li><a href="global.html#generateContacts">generateContacts</a></li><li><a href="global.html#generateTask">generateTask</a></li><li><a href="global.html#generateTaskCategories">generateTaskCategories</a></li><li><a href="global.html#getAddTaskHTML">getAddTaskHTML</a></li><li><a href="global.html#getCrossedOutSubtaskHTML">getCrossedOutSubtaskHTML</a></li><li><a href="global.html#getDetailedTaskHTML">getDetailedTaskHTML</a></li><li><a href="global.html#getEditTaskHTML">getEditTaskHTML</a></li><li><a href="global.html#getEditedContactData">getEditedContactData</a></li><li><a href="global.html#getFirstLetters">getFirstLetters</a></li><li><a href="global.html#getInputsFromForm">getInputsFromForm</a></li><li><a href="global.html#getItem">getItem</a></li><li><a href="global.html#getPrioContainerHTML">getPrioContainerHTML</a></li><li><a href="global.html#getSubtaskBoxHTML">getSubtaskBoxHTML</a></li><li><a href="global.html#getSubtaskHTML">getSubtaskHTML</a></li><li><a href="global.html#getTaskInformationFromArray">getTaskInformationFromArray</a></li><li><a href="global.html#getTaskNumbers">getTaskNumbers</a></li><li><a href="global.html#getTopicDropdownHTML">getTopicDropdownHTML</a></li><li><a href="global.html#greetAccordingToTime">greetAccordingToTime</a></li><li><a href="global.html#highlightSelectedContact">highlightSelectedContact</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#loadContacts">loadContacts</a></li><li><a href="global.html#loadCurrentVariablesFromCache">loadCurrentVariablesFromCache</a></li><li><a href="global.html#loadDate">loadDate</a></li><li><a href="global.html#loadTaskCache">loadTaskCache</a></li><li><a href="global.html#loadTasks">loadTasks</a></li><li><a href="global.html#loadTopics">loadTopics</a></li><li><a href="global.html#loadUsers">loadUsers</a></li><li><a href="global.html#logOut">logOut</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#loginTemplate">loginTemplate</a></li><li><a href="global.html#moveClientDivLeft">moveClientDivLeft</a></li><li><a href="global.html#moveTo">moveTo</a></li><li><a href="global.html#newGivenCategoryHTML">newGivenCategoryHTML</a></li><li><a href="global.html#newPassword">newPassword</a></li><li><a href="global.html#newPasswordTemplate">newPasswordTemplate</a></li><li><a href="global.html#openCreateContact">openCreateContact</a></li><li><a href="global.html#openDetailedContactCard">openDetailedContactCard</a></li><li><a href="global.html#openEditContact">openEditContact</a></li><li><a href="global.html#pushAssignedClientsToArray">pushAssignedClientsToArray</a></li><li><a href="global.html#pushAttachedSubtasksToArray">pushAttachedSubtasksToArray</a></li><li><a href="global.html#pushNewContact">pushNewContact</a></li><li><a href="global.html#pushNewSubtask">pushNewSubtask</a></li><li><a href="global.html#pushNewTopic">pushNewTopic</a></li><li><a href="global.html#refreshContactPage">refreshContactPage</a></li><li><a href="global.html#register">register</a></li><li><a href="global.html#removeAllHighlightsFromContacts">removeAllHighlightsFromContacts</a></li><li><a href="global.html#removeClient">removeClient</a></li><li><a href="global.html#removeFillFieldPopup">removeFillFieldPopup</a></li><li><a href="global.html#removeHighlight">removeHighlight</a></li><li><a href="global.html#removeIMGBrightening">removeIMGBrightening</a></li><li><a href="global.html#removeIconColor">removeIconColor</a></li><li><a href="global.html#removePrioHighlight">removePrioHighlight</a></li><li><a href="global.html#renderContacts">renderContacts</a></li><li><a href="global.html#renderLetters">renderLetters</a></li><li><a href="global.html#renderLogin">renderLogin</a></li><li><a href="global.html#renderSubtasks">renderSubtasks</a></li><li><a href="global.html#resetAddCategorySection">resetAddCategorySection</a></li><li><a href="global.html#resetAddTaskID">resetAddTaskID</a></li><li><a href="global.html#resetPassword">resetPassword</a></li><li><a href="global.html#resetPasswordTemplate">resetPasswordTemplate</a></li><li><a href="global.html#resetTaskCache">resetTaskCache</a></li><li><a href="global.html#saveCurrentInput">saveCurrentInput</a></li><li><a href="global.html#saveEditedTaskInformation">saveEditedTaskInformation</a></li><li><a href="global.html#selectedCategoryHTML">selectedCategoryHTML</a></li><li><a href="global.html#setAssignment">setAssignment</a></li><li><a href="global.html#setItem">setItem</a></li><li><a href="global.html#setItemTasks">setItemTasks</a></li><li><a href="global.html#setItemTopics">setItemTopics</a></li><li><a href="global.html#setNewPassword">setNewPassword</a></li><li><a href="global.html#setUsernameToGreet">setUsernameToGreet</a></li><li><a href="global.html#showAddTaskSite">showAddTaskSite</a></li><li><a href="global.html#showAddTaskWindow">showAddTaskWindow</a></li><li><a href="global.html#showAllTasksCount">showAllTasksCount</a></li><li><a href="global.html#showAssignedClients">showAssignedClients</a></li><li><a href="global.html#showClients">showClients</a></li><li><a href="global.html#showContactsFirstLetters">showContactsFirstLetters</a></li><li><a href="global.html#showDetailedAssignedClients">showDetailedAssignedClients</a></li><li><a href="global.html#showDetailedSubtasks">showDetailedSubtasks</a></li><li><a href="global.html#showDetailedTask">showDetailedTask</a></li><li><a href="global.html#showFilteredTasks">showFilteredTasks</a></li><li><a href="global.html#showFilteredTasksByTopics">showFilteredTasksByTopics</a></li><li><a href="global.html#showHighlight">showHighlight</a></li><li><a href="global.html#showLoadedClientsAndSubtasks">showLoadedClientsAndSubtasks</a></li><li><a href="global.html#showLoadedPrioAndCat">showLoadedPrioAndCat</a></li><li><a href="global.html#showLoadedTaskCache">showLoadedTaskCache</a></li><li><a href="global.html#showLoadedText">showLoadedText</a></li><li><a href="global.html#showNewCreatedTopic">showNewCreatedTopic</a></li><li><a href="global.html#showPassword">showPassword</a></li><li><a href="global.html#showSelectedCategory">showSelectedCategory</a></li><li><a href="global.html#showSelection">showSelection</a></li><li><a href="global.html#showTaskNumbers">showTaskNumbers</a></li><li><a href="global.html#showUrgentTasksCount">showUrgentTasksCount</a></li><li><a href="global.html#signUp">signUp</a></li><li><a href="global.html#signUpTemplate">signUpTemplate</a></li><li><a href="global.html#slideInCreateContact">slideInCreateContact</a></li><li><a href="global.html#sortFirstLetters">sortFirstLetters</a></li><li><a href="global.html#startDragging">startDragging</a></li><li><a href="global.html#taskCategoryHTML">taskCategoryHTML</a></li><li><a href="global.html#upCategory">upCategory</a></li><li><a href="global.html#updateContactIDs">updateContactIDs</a></li><li><a href="global.html#updatePassword">updatePassword</a></li><li><a href="global.html#updateTaskInformation">updateTaskInformation</a></li><li><a href="global.html#updateTaskSection">updateTaskSection</a></li><li><a href="global.html#updateTasks">updateTasks</a></li><li><a href="global.html#updateTasksID">updateTasksID</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu Nov 07 2024 12:54:36 GMT+0100 (Mitteleuropäische Normalzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
