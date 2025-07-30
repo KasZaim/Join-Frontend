@@ -159,7 +159,7 @@ async function login() {
     let email = document.getElementById('emailInput').value;
     let password = document.getElementById('passwordInput').value;
     try {
-        const response = await fetch('http://127.0.0.1:8000/api/auth/login/', {
+        const response = await fetch('https://backend-join.onrender.com/api/auth/login/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -210,7 +210,7 @@ function forwardToMainPage() {
 
 async function guestLogin() {
     try {
-        const response = await fetch('http://127.0.0.1:8000/api/auth/guest-login/', {
+        const response = await fetch('https://backend-join.onrender.com/api/auth/guest-login/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

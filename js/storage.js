@@ -45,7 +45,7 @@ async function getItem(key) {
 
 async function setItemInBackend(resourceType, data = null, id=null, method = 'POST') {
     
-    let url = `http://127.0.0.1:8000/api/${resourceType}/`;
+    let url = `https://backend-join.onrender.com/api/${resourceType}/`;
     const token = localStorage.getItem('authToken');
     if (id) {
         url = `${url}${id}/`;
@@ -80,7 +80,7 @@ async function setItemInBackend(resourceType, data = null, id=null, method = 'PO
 
 async function getItemFromBackend(resourceType) {
     
-    const url = `http://127.0.0.1:8000/api/${resourceType}/`;
+    const url = `https://backend-join.onrender.com/api/${resourceType}/`;
     const token = localStorage.getItem('authToken');
     try {
         const response = await fetch(url, {
